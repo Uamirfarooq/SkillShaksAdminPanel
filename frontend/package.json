@@ -1,25 +1,16 @@
 {
-  "name": "intern",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@material-ui/lab": "^4.0.0-alpha.61",
-    "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.6.8",
-    "pure-react-carousel": "^1.30.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^9.1.2",
+    "axios": "^1.7.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
-    "react-router-use-history": "^1.1.0",
     "react-scripts": "5.0.1",
-    "redux": "^5.0.1",
-    "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4",
     "proxy": "http://localhost:5500"
   },
@@ -48,8 +39,6 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3"
   }
 }

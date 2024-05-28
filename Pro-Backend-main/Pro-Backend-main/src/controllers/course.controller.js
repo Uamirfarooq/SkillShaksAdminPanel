@@ -89,7 +89,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 const AddCourse = asyncHandler(async (req, res) => {
   const { course_name, course_details, author, level, category } = req.body;
 
-  const vari = [course_name, course_details, author, level, category].some(
+  const vari = [course_name, author, level, category].some(
     (fields) => fields?.trim() === "" || fields?.trim() === undefined
   );
   if (vari) {
