@@ -3,7 +3,10 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponce from "../utils/ApiResponce.js";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.models.js";
-import { uploadOnCloudinary, uploadToS3 } from "../middleware/cloudinary.middleware.js";
+import {
+  uploadOnCloudinary,
+  uploadToS3,
+} from "../middleware/cloudinary.middleware.js";
 import bcrypt from "bcrypt";
 import { Admin } from "../models/Admin.models.js";
 import { Course } from "../models/Course.models.js";
@@ -96,7 +99,6 @@ const AddCourse = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.files?.avatar[0]?.path;
   const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
-
   if (!avatarLocalPath) {
     throw new ApiError(409, "Avatar is required at local path");
   }
@@ -105,7 +107,7 @@ const AddCourse = asyncHandler(async (req, res) => {
   }
   // upload them to cloudinary, avatar
   const avatar = await uploadToS3(avatarLocalPath);
-  const coverImage = await uploadToS3 (coverImageLocalPath);
+  const coverImage = await uploadToS3(coverImageLocalPath);
 
   if (!avatar) {
     throw new ApiError(409, "avatar is required");
@@ -114,13 +116,13 @@ const AddCourse = asyncHandler(async (req, res) => {
     throw new ApiError(409, "coverImage is required");
   }
   // create user object - create entsry in db
-//   course_name, course_details, author, level, category
+  //   course_name, course_details, author, level, category
   const user = await Course.create({
     course_name: course_name,
     course_details: course_details,
     author: author,
     level: level,
-    category:category,
+    category: category,
     author_img: avatar.Location,
     course_img: coverImage.Location,
   });
@@ -134,13 +136,22 @@ const AddCourse = asyncHandler(async (req, res) => {
   if (!createdCourse) {
     throw new ApiError(500, "Something went wrong while creating new user");
   }
-  
 
   res.status(200).json(
     new ApiResponce(201, "Working Succesfully", {
-        createdCourse
+      createdCourse,
     })
   );
 });
 
-export { loginAdmin, AddCourse };
+const GetCourse = asyncHandler(async (req, res) => {
+  const courses = await Course.find().exec();
+
+
+  res.status(200).json(
+    new ApiResponce(200, "Data successfully retrived from database", {
+      courses
+    }))
+});
+
+export { loginAdmin, AddCourse, GetCourse };

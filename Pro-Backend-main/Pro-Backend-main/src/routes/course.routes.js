@@ -1,24 +1,14 @@
 import express from "express";
 import { upload } from "./../middleware/multer.middleware.js";
-import { AddCourse, loginAdmin } from "../controllers/course.controller.js";
+import { AddCourse, GetCourse, loginAdmin } from "../controllers/course.controller.js";
 import { veryfyJWT } from "../middleware/verifyJWT.middleware.js";
 
 const router = express();
-
-// router.route("/register").post(
-//     upload.fields([
-//         {
-//             name: "avatar",
-//             maxCount: 1
-//         },
-//         {
-//             name: "coverImage",
-//             maxCount: 1
-//         }
-//     ]),
-//     userRegister)
-
+AddCourse
 router.route("/adminlogin").post(loginAdmin);
+
+router.route("/getcourse").get(GetCourse);
+
 
 router.route("/addcourse").post(
   veryfyJWT,
