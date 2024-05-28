@@ -1,2 +1,2 @@
-const DB_NAME = "Pro-Backend"
+const DB_NAME = "LarningPlateFrom"
 export default DB_NAME

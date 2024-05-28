@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import Registeruser from './routes/user.routes.js'
+import CourseUpload from './routes/course.routes.js'
 
 const app = express()
 // for handleing request
@@ -25,5 +26,7 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 app.use("/api/v1/users", Registeruser)
+
+app.use("/api/v1/admin", CourseUpload)
 
 export default app
