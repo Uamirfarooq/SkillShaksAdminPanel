@@ -1,35 +1,40 @@
-// src/pages/Admin/Registration.js
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toggleDarkMode } from '../../Redux/themeSlice/themeSlice';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Registration() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const darkMode = useSelector((state) => state.theme.darkMode);
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     setIsButtonDisabled(!(email && password));
   }, [email, password]);
 
-  const handleToggleDarkMode = () => {
-    dispatch(toggleDarkMode());
-  };
-
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    // Perform your authentication logic here
-    // If successful, navigate to the dashboard
-    navigate('/admin/dashboard');
+
+    try {
+      const response = await axios.post('http://localhost:5500/api/v1/admin/adminlogin', {
+        email,
+        password
+      });
+
+      console.log('Response:', response.data);
+
+      // Navigate to the admin dashboard if the request is successful
+      navigate('/admin/dashboard');
+    } catch (error) {
+      console.error('Error sending data:', error);
+      // Handle error (e.g., show error message to the user)
+    }
   };
 
   return (
-    <div className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8`}>
+    <div className='bg-white text-gray-900 flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8'>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Sign in to your account</h2>
@@ -91,12 +96,6 @@ function Registration() {
         </p>
 
         <div className="mt-6 text-center">
-          <button
-            onClick={handleToggleDarkMode}
-            className="font-semibold text-indigo-600 hover:text-indigo-500"
-          >
-            Toggle {darkMode ? 'Light' : 'Dark'} Mode
-          </button>
         </div>
       </div>
     </div>

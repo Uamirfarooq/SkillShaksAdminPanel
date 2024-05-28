@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function AddCourse() {
+  const navigate = useNavigate();
   const [authorName, setAuthorName] = useState('');
   const [courseName, setCourseName] = useState('');
   const [courseCategory, setCourseCategory] = useState('');
@@ -10,23 +13,44 @@ function AddCourse() {
   const [authorImage, setAuthorImage] = useState(null);
   const [authorImagePreview, setAuthorImagePreview] = useState('');
 
-  const handleAddCourse = () => {
-    // Logic to add course (e.g., send data to backend)
-    console.log('Author Name:', authorName);
-    console.log('Course Name:', courseName);
-    console.log('Course Category:', courseCategory);
-    console.log('Course Level:', courseLevel);
-    console.log('Course Image:', courseImage);
-    console.log('Author Image:', authorImage);
-    // Reset form fields after submission
-    setAuthorName('');
-    setCourseName('');
-    setCourseCategory('');
-    setCourseLevel('');
-    setCourseImage(null);
-    setCourseImagePreview('');
-    setAuthorImage(null);
-    setAuthorImagePreview('');
+  const handleAddCourse = async () => {
+    // Create form data to send to backend
+    const formData = new FormData();
+    formData.append('course_name', courseName);
+    formData.append('course_details', ''); // Add course details if available
+    formData.append('author', authorName);
+    formData.append('level', courseLevel);
+    formData.append('category', courseCategory);
+    formData.append('coverImage', courseImage);
+    formData.append('avatar', authorImage);
+  navigate("/admin/dashboard")
+    try {
+      const response = await fetch('http://localhost:5500/api/v1/admin/addcourse', {
+        method: 'POST',
+        body: formData,
+      });
+      
+  
+      if (!response.ok) {
+        throw new Error('Failed to add course');
+      }
+  
+      console.log('Course added successfully');
+
+      navigate('/admin/dashboard');
+      // Reset form fields after successful submission
+      setAuthorName('');
+      setCourseName('');
+      setCourseCategory('');
+      setCourseLevel('');
+      setCourseImage(null);
+      setCourseImagePreview('');
+      setAuthorImage(null);
+      setAuthorImagePreview('');
+    } catch (error) {
+      console.error('Error adding course:', error.message);
+      // Handle error scenario here (e.g., show error message to user)
+    }
   };
 
   const handleCourseImageChange = (e) => {
@@ -93,9 +117,9 @@ function AddCourse() {
             className="mt-1 p-2 border border-gray-300 rounded-md w-full"
           >
             <option value="">Select level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
           </select>
         </div>
         <div className="mb-4">
