@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
   const [courseData, setCourseData] = useState([]);
@@ -17,9 +18,9 @@ function Dashboard() {
     fetchCourseData();
   }, []);
 
-  function YouTubeCard({ course_name, course_details, course_img, author_img, author, level }) {
+  function YouTubeCard({ course_name, course_details, course_img, author_img, author, level, id}) {
     return (
-      <div className="max-w-sm w-full bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <Link to = {`/admin/courseDetail?${id}`} className="max-w-sm w-full bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
         <img className="w-full h-48 object-cover object-scale-down rounded-t-lg" src={course_img} alt="Video Thumbnail" />
         <div className="p-5 flex">
           <img className="w-12 h-12 rounded-full mr-4" src={author_img} alt="Profile" />
@@ -28,11 +29,11 @@ function Dashboard() {
               {course_name}
             </h5>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              <p>{author} • {level}</p>
+              <p>{author} • {level} • {id}</p>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
   
@@ -50,6 +51,7 @@ function Dashboard() {
             author_img={course.author_img}
             author={course.author}
             level={course.level}
+            id={course._id}
           />
         ))}
     </div>

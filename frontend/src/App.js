@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateCourse from "../src/pages/Admin/CreateCourse.jsx";
 import Dashboard from "../src/pages/Admin/Dashboard.jsx";
 import Registration from "../src/pages/Admin/Registration.jsx";
+import CourseDetail from "../src/pages/Admin/CourseDetail.jsx";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/admin/register" element={<Registration />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/addCourse" element={<CreateCourse />} />
+        <Route path="/admin/courseDetail" element={<CourseDetail />} />
       </Routes>
       </BrowserRouter>
     </>
