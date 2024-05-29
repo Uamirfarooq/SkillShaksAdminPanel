@@ -1,8 +1,8 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateCourse from "../src/Pages/Admin/CreateCourse";
-import Dashboard from "../src/Pages/Admin/Dashboard";
-import Registration from "../src/Pages/Admin/Registration";
+import CreateCourse from "../src/pages/Admin/CreateCourse.jsx";
+import Dashboard from "../src/pages/Admin/Dashboard.jsx";
+import Registration from "../src/pages/Admin/Registration.jsx";
 
 
 function App() {
