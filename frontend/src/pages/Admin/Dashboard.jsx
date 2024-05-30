@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 
 function Dashboard() {
   const [courseData, setCourseData] = useState([]);
-
+  // const token = localStorage.getItem("accessToken");
   useEffect(() => {
     const fetchCourseData = async () => {
+      
       try {
         const response = await axios.get('http://localhost:5500/api/v1/admin/getcourse');
+        console.log(response);
         setCourseData(response.data.data);
       } catch (error) {
         console.error('Error fetching course data:', error);
