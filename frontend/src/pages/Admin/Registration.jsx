@@ -26,7 +26,7 @@ function Registration() {
       console.log('Response:', response.data);
 
       // Navigate to the admin dashboard if the request is successful
-      navigate('/admin/dashboard');
+      navigate('/');
     } catch (error) {
       console.error('Error sending data:', error);
       // Handle error (e.g., show error message to the user)
