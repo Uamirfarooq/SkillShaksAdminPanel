@@ -23,7 +23,9 @@ function Registration() {
         password
       });
 
-      console.log('Response:', response.data);
+      console.log('Response:', response.data.data);
+      localStorage.setItem("accessToken", JSON.stringify(response.data.data.accessToken));
+
 
       // Navigate to the admin dashboard if the request is successful
       navigate('/admin/dashboard');
