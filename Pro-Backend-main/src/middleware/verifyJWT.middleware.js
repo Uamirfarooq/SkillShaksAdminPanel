@@ -6,6 +6,7 @@ import { Admin } from '../models/Admin.models.js';
 export const veryfyJWT = asyncHandler(async (req, _, next) => {
 
     const token = req.cookies?.accessToken || req.header("Authorization"?.replace("Bearer ", ""))
+    
 
     if (!token) {
         throw new ApiError(407, "UnAuthorized Request",)
@@ -14,6 +15,10 @@ export const veryfyJWT = asyncHandler(async (req, _, next) => {
     const decodedToken = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET)
 
     const user = await Admin.findById(decodedToken._id).select("-password -refreshToken")
+
+    if (!user) {
+        throw new ApiError(407, "UnAuthorized Request",)
+    }
 
     req.user = user
 

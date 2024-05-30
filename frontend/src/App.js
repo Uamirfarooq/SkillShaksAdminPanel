@@ -5,6 +5,10 @@ import Dashboard from "../src/pages/Admin/Dashboard.jsx";
 import Registration from "../src/pages/Admin/Registration.jsx";
 import CourseDetail from "../src/pages/Admin/CourseDetail.jsx";
 import AdminHomePage from "../src/pages/Admin/Home.jsx";
+import CreateCourse from "../src/Pages/Admin/CreateCourse.jsx";
+import Dashboard from "../src/Pages/Admin/Dashboard.jsx";
+import Registration from "../src/Pages/Admin/Registration.jsx";
+import CourseDetail from "../src/Pages/Admin/CourseDetail.jsx";
 
 
 function App() {

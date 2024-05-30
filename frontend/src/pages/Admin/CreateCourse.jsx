@@ -24,10 +24,13 @@ function AddCourse() {
     formData.append('coverImage', courseImage);
     formData.append('avatar', authorImage);
   navigate("/admin/dashboard")
+  const token = localStorage.getItem("accessToken");
+  console.log("this is token",token);
     try {
       const response = await fetch('http://localhost:5500/api/v1/admin/addcourse', {
         method: 'POST',
         body: formData,
+        cookies: token
       });
       
   
