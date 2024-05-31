@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function AddCourse() {
   const navigate = useNavigate();
   const [authorName, setAuthorName] = useState('');
@@ -23,21 +24,21 @@ function AddCourse() {
     formData.append('category', courseCategory);
     formData.append('coverImage', courseImage);
     formData.append('avatar', authorImage);
-  navigate("/admin/dashboard")
-  const token = localStorage.getItem("accessToken");
-  console.log("this is token",token);
+    navigate("/admin/dashboard")
+    const token = localStorage.getItem("accessToken");
+    console.log("this is token .. ", token);
     try {
       const response = await fetch('http://localhost:5500/api/v1/admin/addcourse', {
         method: 'POST',
         body: formData,
         cookies: token
       });
-      
-  
+
+
       if (!response.ok) {
         throw new Error('Failed to add course');
       }
-  
+
       console.log('Course added successfully');
 
       navigate('/admin/dashboard');
@@ -73,7 +74,7 @@ function AddCourse() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-8">
+    <div className="max-w-lg m-10 mx-auto mt-8">
       <h2 className="text-2xl font-bold mb-4">Add Course</h2>
       <form onSubmit={handleAddCourse}>
         <div className="mb-4">
@@ -145,11 +146,11 @@ function AddCourse() {
             onChange={handleAuthorImageChange}
             className="mt-1 p-2 border border-gray-300 rounded-md w-full"
           />
-    {authorImagePreview && (
+          {authorImagePreview && (
             <div className="mt-2 rounded-full overflow-hidden border-2 border-blue-500 w-20 h-20">
-            <img src={authorImagePreview} alt="Author Preview" className="w-full h-full object-top object-cover" />
-          </div>
-          
+              <img src={authorImagePreview} alt="Author Preview" className="w-full h-full object-top object-cover" />
+            </div>
+
           )}
         </div>
         <button
@@ -159,6 +160,7 @@ function AddCourse() {
           Add Course
         </button>
       </form>
+      
     </div>
   );
 }

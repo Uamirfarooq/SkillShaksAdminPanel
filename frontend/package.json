@@ -7,12 +7,20 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
+    "chart.js": "^4.4.3",
+    "framer-motion": "^11.2.9",
+    "install": "^0.13.0",
+    "js-cookie": "^3.0.5",
+    "npm": "^10.8.1",
     "react": "^18.3.1",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
+
     "web-vitals": "^2.1.4",
     "proxy": "http://localhost:5500"
+
   },
   "scripts": {
     "start": "react-scripts start",

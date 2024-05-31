@@ -1,7 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const Modal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [videoFile, setVideoFile] = useState(null);
+  const [title, setTitle] = useState('');
+  const [videoPreview, setVideoPreview] = useState(null);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -9,13 +13,46 @@ const Modal = () => {
 
   const closeModal = () => {
     setIsOpen(false);
+    setVideoFile(null);
+    setTitle('');
+    setVideoPreview(null);
+  };
+
+  const handleVideoChange = (e) => {
+    const file = e.target.files[0];
+    setVideoFile(file);
+    if (file) {
+      const videoURL = URL.createObjectURL(file);
+      setVideoPreview(videoURL);
+    }
+  };
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append('video', videoFile);
+    formData.append('title', title);
+
+    try {
+      await axios.post('http://localhost:5500/api/v1/admin/uploadvideo', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      closeModal();
+    } catch (error) {
+      console.error('Error uploading video:', error);
+    }
   };
 
   return (
     <>
       <button
         onClick={toggleModal}
-        className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="block text-white m-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         type="button"
       >
         Add Video
@@ -36,7 +73,7 @@ const Modal = () => {
               {/* Modal header */}
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Terms of Service
+                  Upload Video
                 </h3>
                 <button
                   type="button"
@@ -63,12 +100,42 @@ const Modal = () => {
               </div>
               {/* Modal body */}
               <div className="p-4 md:p-5 space-y-4">
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                  With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                  The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
+                <div className="space-y-2">
+                  <label className="block text-gray-700 dark:text-gray-300">Title</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={handleTitleChange}
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-600 dark:text-gray-200"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-gray-700 dark:text-gray-300">Video File</label>
+                  <input
+                    type="file"
+                    accept="video/*"
+                    onChange={handleVideoChange}
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-600 dark:text-gray-200"
+                  />
+                </div>
+                {videoPreview && (
+                  <div className="mt-4">
+                    <video controls className="w-full rounded-lg">
+                      <source src={videoPreview} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    <p className="mt-2 text-center text-gray-700 dark:text-gray-300">{title}</p>
+                  </div>
+                )}
+              </div>
+              {/* Modal footer */}
+              <div className="flex justify-end p-4 md:p-5 border-t rounded-b dark:border-gray-600">
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>
