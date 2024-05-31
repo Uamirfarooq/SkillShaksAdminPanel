@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { checkAuthToken } from '../../utils/checkAuthToken';
 
+
 const AdminHomePage = () => {
 
     const [authStatus, setAuthStatus] = useState({ authenticated: false, token: null });
@@ -14,19 +15,13 @@ const AdminHomePage = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Navbar */}
-            <nav className="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
-                <div className="text-2xl font-bold">Admin Panel</div>
-                <div className="space-x-4">
-                    <Link to="/admin/register" className="bg-blue-800 hover:bg-blue-700 transition duration-300 px-4 py-2 rounded">Login</Link >
-
-                </div>
-            </nav>
+            
 
             {/* Main Content */}
-            <main className="flex-grow p-8">
+            <main className="flex-grow p-8 flex flex-col items-center justify-center">
                 {/* Hero Section */}
                 <section className="flex flex-col justify-center items-center text-center mb-8">
-                    <h1 className="text-4xl font-bold mb-4 animate-fadeIn">Welcome to Admin Panel</h1>
+                    <h1 className="text-6xl font-bold mb-4 animate-fadeIn">Welcome to Admin Panel</h1>
                     <p className="text-xl text-gray-700 mb-8">Manage your platform efficiently</p>
                 </section>
 
@@ -40,6 +35,7 @@ const AdminHomePage = () => {
                         <Link to={authStatus.authenticated ? "/admin/dashboard" : "/admin/register"} className="bg-yellow-500 hover:bg-yellow-400 transition duration-300 text-white px-4 py-2 rounded">
                             Manage Content
                         </Link>
+                        
                     </div>
 
 
@@ -47,41 +43,25 @@ const AdminHomePage = () => {
                     <div className="bg-white p-6 shadow-md rounded-lg text-center">
                         <h2 className="text-2xl font-bold mb-4">View Analytics</h2>
                         <p className="text-gray-700 mb-4">Analyze platform usage and performance metrics.</p>
-                        <button className="bg-green-500 hover:bg-green-400 transition duration-300 text-white px-4 py-2 rounded">
+                        <Link to={authStatus.authenticated ? "/admin/analytics" : "/admin/register"} className="bg-green-500 hover:bg-green-400 transition duration-300 text-white px-4 py-2 rounded">
                             View Analytics
-                        </button>
+                        </Link>
+                        
                     </div>
 
                     {/* Manage Users */}
                     <div className="bg-white p-6 shadow-md rounded-lg text-center">
                         <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
                         <p className="text-gray-700 mb-4">View, add, edit, or remove users from the platform.</p>
-                        <button className="bg-blue-600 hover:bg-blue-500 transition duration-300 text-white px-4 py-2 rounded">
+                        <Link to={authStatus.authenticated ? "/admin/manage-user" : "/admin/register"} className="bg-blue-600 hover:bg-blue-500 transition duration-300 text-white px-4 py-2 rounded">
                             Go to Users
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </main>
 
             {/* Footer */}
-            <footer className="bg-gray-800 text-white p-4 text-center">
-                <div className="max-w-4xl mx-auto">
-                    <div className="mb-4">
-                        <h3 className="text-lg font-bold">Contact Support</h3>
-                        <p>Email: admin-support@learnplatform.com</p>
-                        <p>Phone: (123) 456-7890</p>
-                    </div>
-                    <div className="mb-4">
-                        <h3 className="text-lg font-bold">Follow Us</h3>
-                        <div className="space-x-4">
-                            <a href="#" className="hover:text-gray-400">Facebook</a>
-                            <a href="#" className="hover:text-gray-400">Twitter</a>
-                            <a href="#" className="hover:text-gray-400">LinkedIn</a>
-                        </div>
-                    </div>
-                    <p>© 2024 LearnPlatform. All rights reserved.</p>
-                </div>
-            </footer>
+            
         </div>
     );
 };

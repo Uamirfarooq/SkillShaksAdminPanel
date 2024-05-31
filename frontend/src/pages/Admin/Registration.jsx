@@ -23,7 +23,7 @@ function Registration() {
         password
       });
 
-      console.log('Response:', response.data.data);
+      console.log('Response:', response.data.data.accessToken);
       localStorage.setItem("accessToken", JSON.stringify(response.data.data.accessToken));
 
 
