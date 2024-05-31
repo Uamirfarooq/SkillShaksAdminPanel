@@ -1,8 +1,7 @@
 import Cookies from 'js-cookie';
 
 export const checkAuthToken = () => {
-  const token = Cookies.get('authToken');
-  console.log("this is token",token);
+  const token = localStorage.getItem('accessToken');
   if (token) {
     return { authenticated: true, token };
   } else {
