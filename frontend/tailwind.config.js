@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        '3/10': '30%',
+        '7/10': '70%',
+      },
       animation: {
         fadeIn: 'fadeIn 2s ease-in-out',
         bounce: 'bounce 2s infinite',
