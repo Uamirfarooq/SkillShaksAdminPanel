@@ -1,14 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateCourse from "../src/Pages/Admin/CreateCourse.jsx";
-import Dashboard from "../src/Pages/Admin/Dashboard.jsx";
-import Registration from "../src/Pages/Admin/Registration.jsx";
-import CourseDetail from "../src/Pages/Admin/CourseDetail.jsx";
-import AdminHomePage from "../src/Pages/Admin/Home.jsx";
+import CreateCourse from "./pages/Admin/CreateCourse.jsx";
+import Dashboard from "./pages/Admin/Dashboard.jsx";
+import Registration from "./pages/Admin/Registration.jsx";
+import CourseDetail from "./pages/Admin/CourseDetail.jsx";
+
 import Navbar from "./components/Admin/Navbar.jsx";
 import Footer from "./components/Admin/Footer.jsx";
-import AnalyticsPage from "./Pages/Admin/Analytics.jsx";
-import UserListPage from "./Pages/Admin/UserListPage.jsx";
-import UserProfilePage from "./Pages/Admin/UserProfilePage.jsx";
+import AnalyticsPage from "./pages/Admin/Analytics.jsx";
+import UserListPage from "./pages/Admin/UserListPage.jsx";
+import UserProfilePage from "./pages/Admin/UserProfilePage.jsx";
+import AdminHomePage from "./pages/Admin/Home.jsx";
 
 function App() {
   return (
