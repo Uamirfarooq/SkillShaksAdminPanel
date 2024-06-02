@@ -9,7 +9,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get('http://localhost:5500/api/v1/admin/getcourse');
+        const response = await axios.get('http://localhost:5500/api/v1/course/courses');
         console.log(response);
         setCourseData(response.data.data);
       } catch (error) {

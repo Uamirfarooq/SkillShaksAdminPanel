@@ -28,7 +28,7 @@ function AddCourse() {
     const token = localStorage.getItem("accessToken");
     console.log("this is token .. ", token);
     try {
-      const response = await fetch('http://localhost:5500/api/v1/admin/addcourse', {
+      const response = await fetch('http://localhost:5500/api/v1/course/addcourse', {
         method: 'POST',
         body: formData,
         cookies: token
