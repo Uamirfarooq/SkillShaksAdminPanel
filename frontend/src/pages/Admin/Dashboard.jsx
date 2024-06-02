@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AddIcon from '../../components/Admin/AddIcon';
+import { getAccessToken } from '../../../src/utils/checkAuthToken'; // Assuming you have a utility function to get the access token
 
 function Dashboard() {
   const [courseData, setCourseData] = useState([]);
@@ -9,7 +10,14 @@ function Dashboard() {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get('http://localhost:5500/api/v1/course/courses');
+        const accessToken = getAccessToken(); // Get the access token from your utility function
+
+        const response = await axios.get('http://localhost:5500/api/v1/course/courses', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
+
         console.log(response);
         setCourseData(response.data.data);
       } catch (error) {
@@ -53,7 +61,6 @@ function Dashboard() {
   return (
     <>
       <div className="grid grid-cols-1 m-10 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {console.log(courseData)}
         {Array.isArray(courseData.courses) &&
           courseData.courses.map((course, index) => (
             <YouTubeCard

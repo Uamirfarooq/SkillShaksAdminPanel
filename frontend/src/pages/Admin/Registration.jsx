@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { setTokens } from '../../../src/utils/checkAuthToken'; // Import the utility function
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -24,15 +25,11 @@ function Registration() {
         { withCredentials: true } // Include credentials in request
       );
 
-      // Retrieve the access token from cookies and store it in local storage
-      const accessToken = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('accessToken='))
-        ?.split('=')[1];
+      // Retrieve the access token and refresh token from the response data
+      const { accessToken, refreshToken } = response.data;
 
-      if (accessToken) {
-        localStorage.setItem("accessToken", accessToken);
-      }
+      // Store tokens using the utility function
+      setTokens(accessToken, refreshToken);
 
       // Navigate to the admin dashboard if the request is successful
       navigate("/");

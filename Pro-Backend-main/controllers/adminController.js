@@ -115,17 +115,10 @@ const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    const cookieOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Set secure flag in production
-      sameSite: "lax", // Helps mitigate CSRF attacks
-    };
-
-    res.cookie("accessToken", accessToken, cookieOptions);
-    res.cookie("refreshToken", refreshToken, cookieOptions);
-
     return res.status(200).json({
       message: "Successfully Login",
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   } catch (error) {
     res.status(500).json({ error: "Error logging in" });
