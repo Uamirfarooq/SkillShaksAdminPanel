@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../Feature/auth/authSlice';
+
 
 function Registration() {
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -22,10 +26,14 @@ function Registration() {
         email,
         password
       });
+      const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
+      const user = response.data.data.user;
 
-      console.log('Response:', response.data.data.accessToken);
-      localStorage.setItem("accessToken", JSON.stringify(response.data.data.accessToken));
+      localStorage.setItem("accessToken", JSON.stringify(accessToken));
+      localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
 
+      dispatch(loginSuccess({ user, accessToken, refreshToken }));
 
       // Navigate to the admin dashboard if the request is successful
       navigate('/');
