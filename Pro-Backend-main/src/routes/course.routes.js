@@ -11,7 +11,6 @@ router.route("/getcourse").get(GetCourse);
 
 
 router.route("/addcourse").post(
-  veryfyJWT,
   upload.fields([
     {
       name: "avatar",

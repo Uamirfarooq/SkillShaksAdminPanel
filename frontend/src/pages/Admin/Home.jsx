@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { checkAuthToken } from '../../utils/checkAuthToken';
+
 
 
 const AdminHomePage = () => {
 
-    const [authStatus, setAuthStatus] = useState({ authenticated: false, token: null });
-
-    useEffect(() => {
-      const authResult = checkAuthToken();
-      setAuthStatus(authResult);
-    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -32,7 +26,7 @@ const AdminHomePage = () => {
                     <div className="bg-white p-6 shadow-md rounded-lg text-center">
                         <h2 className="text-2xl font-bold mb-4">Manage Content</h2>
                         <p className="text-gray-700 mb-4">Create, update, or delete courses and materials.</p>
-                        <Link to={authStatus.authenticated ? "/admin/dashboard" : "/admin/register"} className="bg-yellow-500 hover:bg-yellow-400 transition duration-300 text-white px-4 py-2 rounded">
+                        <Link to= "/admin/dashboard" className="bg-yellow-500 hover:bg-yellow-400 transition duration-300 text-white px-4 py-2 rounded">
                             Manage Content
                         </Link>
                         
@@ -43,7 +37,7 @@ const AdminHomePage = () => {
                     <div className="bg-white p-6 shadow-md rounded-lg text-center">
                         <h2 className="text-2xl font-bold mb-4">View Analytics</h2>
                         <p className="text-gray-700 mb-4">Analyze platform usage and performance metrics.</p>
-                        <Link to={authStatus.authenticated ? "/admin/analytics" : "/admin/register"} className="bg-green-500 hover:bg-green-400 transition duration-300 text-white px-4 py-2 rounded">
+                        <Link to= "/admin/analytics" className="bg-green-500 hover:bg-green-400 transition duration-300 text-white px-4 py-2 rounded">
                             View Analytics
                         </Link>
                         
@@ -53,7 +47,7 @@ const AdminHomePage = () => {
                     <div className="bg-white p-6 shadow-md rounded-lg text-center">
                         <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
                         <p className="text-gray-700 mb-4">View, add, edit, or remove users from the platform.</p>
-                        <Link to={authStatus.authenticated ? "/admin/manage-user" : "/admin/register"} className="bg-blue-600 hover:bg-blue-500 transition duration-300 text-white px-4 py-2 rounded">
+                        <Link to= "/admin/manage-user"  className="bg-blue-600 hover:bg-blue-500 transition duration-300 text-white px-4 py-2 rounded">
                             Go to Users
                         </Link>
                     </div>

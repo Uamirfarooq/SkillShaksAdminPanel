@@ -1,10 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import CourseModal from './CourseModal';
 
 const AddIcon = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
-    <Link to="/admin/addCourse" className="fixed bottom-4 right-4">
-      <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
+    <div className="fixed bottom-4 right-4">
+      <button onClick={openModal} className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -19,8 +29,9 @@ const AddIcon = () => {
             d="M12 4v16m8-8H4"
           />
         </svg>
-      </div>
-    </Link>
+      </button>
+      {modalOpen && <CourseModal closeModal={closeModal} />}
+    </div>
   );
 };
 
