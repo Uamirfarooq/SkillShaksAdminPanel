@@ -1,11 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '../../components/Admin/Modal';
 import CourseModal from '../../components/Admin/CourseModal';
+import axios from 'axios';
 
-const path = 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp';
+// const path = 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp';
 
 const CourseDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5500/api/v1/admin/getcourse");
+        console.log(response);
+        if (Array.isArray(response.data.data)) {
+          setCourses(response.data.data);
+        } else {
+          console.error("Unexpected response structure:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching course data:", error);
+      }
+    };
+
+    fetchCourseData();
+  }, []);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -16,7 +37,7 @@ const CourseDetail = () => {
       <div className="sidebar h-[94vh] lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
         <div className='flex items-center justify-between'>
           <div className="w-24 h-24 sm:w-16 sm:h-16 rounded-full overflow-hidden shadow-lg border-4 border-gray-300">
-            <img src={path} alt="avatar" className="w-full h-full object-cover" />
+            <img src={courses.author_img} alt="avatar" className="w-full h-full object-cover" />
           </div>
           <h1 className='text-yellow-500 min-w-28 inline-block'>Umair farooq</h1>
           <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
@@ -60,11 +81,12 @@ const CourseDetail = () => {
           <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
         </div>
       </div>
+      {/* {console.log(avatar)} */}
       <div>
         <Modal />
       </div>
       {isModalOpen && (
-        <CourseModal closeModal={toggleModal} />
+        <CourseModal closeModal={toggleModal} courseName= "Edit Course" />
       )}
     </div>
   );

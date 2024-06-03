@@ -30,7 +30,7 @@ const AddIcon = () => {
           />
         </svg>
       </button>
-      {modalOpen && <CourseModal closeModal={closeModal} />}
+      {modalOpen && <CourseModal closeModal={closeModal} courseName = "Add Course" />}
     </div>
   );
 };
