@@ -1,58 +1,65 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios
 
 function AddCourse() {
   const navigate = useNavigate();
-  const [authorName, setAuthorName] = useState('');
-  const [courseName, setCourseName] = useState('');
-  const [courseCategory, setCourseCategory] = useState('');
-  const [courseLevel, setCourseLevel] = useState('');
+  const [authorName, setAuthorName] = useState("");
+  const [courseName, setCourseName] = useState("");
+  const [courseCategory, setCourseCategory] = useState("");
+  const [courseLevel, setCourseLevel] = useState("");
   const [courseImage, setCourseImage] = useState(null);
-  const [courseImagePreview, setCourseImagePreview] = useState('');
+  const [courseImagePreview, setCourseImagePreview] = useState("");
   const [authorImage, setAuthorImage] = useState(null);
-  const [authorImagePreview, setAuthorImagePreview] = useState('');
+  const [authorImagePreview, setAuthorImagePreview] = useState("");
 
-  const handleAddCourse = async () => {
+  const handleAddCourse = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+
     // Create form data to send to backend
     const formData = new FormData();
-    formData.append('course_name', courseName);
-    formData.append('course_details', ''); // Add course details if available
-    formData.append('author', authorName);
-    formData.append('level', courseLevel);
-    formData.append('category', courseCategory);
-    formData.append('coverImage', courseImage);
-    formData.append('avatar', authorImage);
-    navigate("/admin/dashboard")
+    formData.append("course_name", courseName);
+    formData.append("course_details", ""); // Add course details if available
+    formData.append("author", authorName);
+    formData.append("level", courseLevel);
+    formData.append("category", courseCategory);
+    formData.append("coverImage", courseImage);
+    formData.append("avatar", authorImage);
+
     const token = localStorage.getItem("accessToken");
     console.log("this is token .. ", token);
+
     try {
-      const response = await fetch('http://localhost:5500/api/v1/course/addcourse', {
-        method: 'POST',
-        body: formData,
-        cookies: token
-      });
+      const response = await axios.post(
+        "http://localhost:5500/api/v1/course/addcourse",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-
-      if (!response.ok) {
-        throw new Error('Failed to add course');
+      if (!response.data) {
+        console.log("Error adding Course");
+        throw new Error("Failed to add course");
       }
 
-      console.log('Course added successfully');
+      console.log("Course added successfully");
 
-      navigate('/admin/dashboard');
+      navigate("/admin/dashboard");
       // Reset form fields after successful submission
-      setAuthorName('');
-      setCourseName('');
-      setCourseCategory('');
-      setCourseLevel('');
+      setAuthorName("");
+      setCourseName("");
+      setCourseCategory("");
+      setCourseLevel("");
       setCourseImage(null);
-      setCourseImagePreview('');
+      setCourseImagePreview("");
       setAuthorImage(null);
-      setAuthorImagePreview('');
+      setAuthorImagePreview("");
     } catch (error) {
-      console.error('Error adding course:', error.message);
+      console.error("Error adding course:", error.message);
       // Handle error scenario here (e.g., show error message to user)
     }
   };
@@ -78,7 +85,9 @@ function AddCourse() {
       <h2 className="text-2xl font-bold mb-4">Add Course</h2>
       <form onSubmit={handleAddCourse}>
         <div className="mb-4">
-          <label htmlFor="authorName" className="block text-sm font-medium">Author Name:</label>
+          <label htmlFor="authorName" className="block text-sm font-medium">
+            Author Name:
+          </label>
           <input
             type="text"
             id="authorName"
@@ -88,7 +97,9 @@ function AddCourse() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="courseName" className="block text-sm font-medium">Course Name:</label>
+          <label htmlFor="courseName" className="block text-sm font-medium">
+            Course Name:
+          </label>
           <input
             type="text"
             id="courseName"
@@ -98,7 +109,9 @@ function AddCourse() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="courseCategory" className="block text-sm font-medium">Course Category:</label>
+          <label htmlFor="courseCategory" className="block text-sm font-medium">
+            Course Category:
+          </label>
           <select
             id="courseCategory"
             value={courseCategory}
@@ -113,7 +126,9 @@ function AddCourse() {
           </select>
         </div>
         <div className="mb-4">
-          <label htmlFor="courseLevel" className="block text-sm font-medium">Course Level:</label>
+          <label htmlFor="courseLevel" className="block text-sm font-medium">
+            Course Level:
+          </label>
           <select
             id="courseLevel"
             value={courseLevel}
@@ -127,7 +142,9 @@ function AddCourse() {
           </select>
         </div>
         <div className="mb-4">
-          <label htmlFor="courseImage" className="block text-sm font-medium">Course Image:</label>
+          <label htmlFor="courseImage" className="block text-sm font-medium">
+            Course Image:
+          </label>
           <input
             type="file"
             id="courseImage"
@@ -135,11 +152,18 @@ function AddCourse() {
             className="mt-1 p-2 border border-gray-300 rounded-md w-full"
           />
           {courseImagePreview && (
-            <img src={courseImagePreview} alt="Course Preview" className="mt-2 rounded-md w-1/3 max-h-32 object-contain" style={{ maxWidth: '50%' }} />
+            <img
+              src={courseImagePreview}
+              alt="Course Preview"
+              className="mt-2 rounded-md w-1/3 max-h-32 object-contain"
+              style={{ maxWidth: "50%" }}
+            />
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="authorImage" className="block text-sm font-medium">Author Image:</label>
+          <label htmlFor="authorImage" className="block text-sm font-medium">
+            Author Image:
+          </label>
           <input
             type="file"
             id="authorImage"
@@ -148,9 +172,12 @@ function AddCourse() {
           />
           {authorImagePreview && (
             <div className="mt-2 rounded-full overflow-hidden border-2 border-blue-500 w-20 h-20">
-              <img src={authorImagePreview} alt="Author Preview" className="w-full h-full object-top object-cover" />
+              <img
+                src={authorImagePreview}
+                alt="Author Preview"
+                className="w-full h-full object-top object-cover"
+              />
             </div>
-
           )}
         </div>
         <button
@@ -160,7 +187,6 @@ function AddCourse() {
           Add Course
         </button>
       </form>
-      
     </div>
   );
 }

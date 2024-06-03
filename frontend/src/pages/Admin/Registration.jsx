@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { setTokens } from '../../../src/utils/checkAuthToken'; // Import the utility function
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -21,26 +20,22 @@ function Registration() {
     try {
       const response = await axios.post(
         "http://localhost:5500/api/v1/admin/adminlogin",
-        { email, password },
-        { withCredentials: true } // Include credentials in request
+        {
+          email,
+          password,
+        }
       );
-
-      // Retrieve the access token and refresh token from the response data
-      const { accessToken, refreshToken } = response.data;
-
-      // Store tokens using the utility function
-      setTokens(accessToken, refreshToken);
+      // console.log("AccessToken", response.data.accessToken);
+      localStorage.setItem(
+        "accessToken",
+        JSON.stringify(response.data.accessToken)
+      );
 
       // Navigate to the admin dashboard if the request is successful
       navigate("/");
     } catch (error) {
       console.error("Error sending data:", error);
       // Handle error (e.g., show error message to the user)
-      if (error.response && error.response.data && error.response.data.message) {
-        alert(error.response.data.message);
-      } else {
-        alert("An error occurred. Please try again.");
-      }
     }
   };
 
@@ -60,7 +55,10 @@ function Registration() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSignIn}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6"
+            >
               Email address
             </label>
             <div className="mt-2">
@@ -79,11 +77,17 @@ function Registration() {
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6"
+              >
                 Password
               </label>
               <div className="text-sm">
-                <Link to="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                <Link
+                  to="#"
+                  className="font-semibold text-indigo-600 hover:text-indigo-500"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -118,11 +122,16 @@ function Registration() {
         </form>
 
         <p className="mt-10 text-center text-sm">
-          Not a member?{" "}
-          <Link to="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+          Not a member?
+          <Link
+            to="#"
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
             Start a 14 day free trial
           </Link>
         </p>
+
+        <div className="mt-6 text-center"></div>
       </div>
     </div>
   );

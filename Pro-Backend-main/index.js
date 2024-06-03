@@ -12,8 +12,10 @@ const { createPredefinedAdmin } = require("./controllers/adminController");
 const PORT = process.env.PORT || 5000;
 
 // Middlewares configuration
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
+
+
 
 const corsOptions = {
   origin: "http://localhost:3000", // specify your frontend URL

@@ -3,12 +3,13 @@ import CreateCourse from "../src/pages/Admin/CreateCourse.jsx";
 import Dashboard from "../src/pages/Admin/Dashboard.jsx";
 import Registration from "../src/pages/Admin/Registration.jsx";
 import CourseDetail from "../src/pages/Admin/CourseDetail.jsx";
-import AdminHomePage from "../src/pages/Admin/Home.jsx";
-import Navbar from "./components/Admin/Navbar.jsx";
+
+import Navbar from "../src/components/Admin/Navbar.jsx";
 import Footer from "./components/Admin/Footer.jsx";
-import AnalyticsPage from "./pages/Admin/Analytics.jsx";
-import UserListPage from "./pages/Admin/UserListPage.jsx";
-import UserProfilePage from "./pages/Admin/UserProfilePage.jsx";
+import AnalyticsPage from "../src/pages/Admin/Analytics.jsx";
+import UserListPage from "../src/pages/Admin/UserListPage.jsx";
+import UserProfilePage from "../src/pages/Admin/UserProfilePage.jsx"
+import AdminHomePage from "../src/pages/Admin/Home.jsx";
 
 function App() {
   return (

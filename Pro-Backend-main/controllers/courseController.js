@@ -7,17 +7,17 @@ const { uploadFile, deleteFile } = require("../services/s3Services");
 // Define the addCourse controller function
 const addCourse = async (req, res) => {
   const { course_name, course_details, author, level, category } = req.body;
-  const courseImage = req.files.courseImage[0];
-  const authorImage = req.files.authorImage[0];
+  const coverImage = req.files.coverImage[0];
+  const avatar = req.files.avatar[0];
 
   try {
     const courseImageUpload = await uploadFile(
-      courseImage,
-      process.env.AWS_BUCKET_IMAGES // Assuming this is your correct environment variable for course images bucket
+      coverImage,
+      process.env.AWS_BUCKET_IMAGES,  // Assuming this is your correct environment variable for cover images bucket
     );
     const authorImageUpload = await uploadFile(
-      authorImage,
-      process.env.AWS_BUCKET_IMAGES // Assuming this is your correct environment variable for author images bucket
+      avatar,
+      process.env.AWS_BUCKET_IMAGES // Assuming this is your correct environment variable for avatar images bucket
     );
 
     const newCourse = new Course({
@@ -26,8 +26,8 @@ const addCourse = async (req, res) => {
       author,
       level,
       category,
-      course_img: courseImageUpload.Location,
-      author_img: authorImageUpload.Location,
+      coverImage: courseImageUpload.Location,
+      avatar: authorImageUpload.Location,
     });
 
     await newCourse.save();
@@ -62,10 +62,10 @@ const updateCourse = async (req, res) => {
 
   // console.log('req.files:', req.files); // Debug log for req.files
 
-  const courseImage =
-    req.files && req.files.courseImage ? req.files.courseImage[0] : null;
-  const authorImage =
-    req.files && req.files.authorImage ? req.files.authorImage[0] : null;
+  const coverImage =
+    req.files && req.files.coverImage ? req.files.coverImage[0] : null;
+  const avatar =
+    req.files && req.files.avatar ? req.files.avatar[0] : null;
 
   try {
     let updatedCourse = await Course.findById(courseId);
@@ -81,23 +81,23 @@ const updateCourse = async (req, res) => {
     if (category) updatedCourse.category = category;
 
     // Handle course image update
-    if (courseImage) {
-      await deleteFile(updatedCourse.course_img);
-      const courseImageUpload = await uploadFile(
-        courseImage,
+    if (coverImage) {
+      await deleteFile(updatedCourse.coverImage);
+      const coverImageUpload = await uploadFile(
+        coverImage,
         process.env.AWS_BUCKET_IMAGES
       );
-      updatedCourse.course_img = courseImageUpload.Location;
+      updatedCourse.coverImage = coverImageUpload.Location;
     }
 
     // Handle author image update
-    if (authorImage) {
-      await deleteFile(updatedCourse.author_img);
-      const authorImageUpload = await uploadFile(
-        authorImage,
+    if (avatar) {
+      await deleteFile(updatedCourse.avatar);
+      const avatarUpload = await uploadFile(
+        avatar,
         process.env.AWS_BUCKET_IMAGES
       );
-      updatedCourse.author_img = authorImageUpload.Location;
+      updatedCourse.avatar = avatarUpload.Location;
     }
 
     await updatedCourse.save();
@@ -112,7 +112,7 @@ const updateCourse = async (req, res) => {
 const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find();
-    res.status(200).json({ Message: courses });
+    res.status(201).json({ data: courses });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -130,11 +130,11 @@ const deleteCourse = async (req, res) => {
     }
 
     // Delete images from AWS S3 before deleting the course
-    if (courseToDelete.course_img) {
-      await deleteFile(courseToDelete.course_img);
+    if (courseToDelete.coverImage) {
+      await deleteFile(courseToDelete.coverImage);
     }
-    if (courseToDelete.author_img) {
-      await deleteFile(courseToDelete.author_img);
+    if (courseToDelete.avatar) {
+      await deleteFile(courseToDelete.avatar);
     }
 
     // Find and delete all videos associated with the course
@@ -160,4 +160,10 @@ const deleteCourse = async (req, res) => {
 };
 
 // Export the addCourse function using the exports object
-module.exports = { addCourse, getCourse, getAllCourses , updateCourse, deleteCourse };
+module.exports = {
+  addCourse,
+  getCourse,
+  getAllCourses,
+  updateCourse,
+  deleteCourse,
+};

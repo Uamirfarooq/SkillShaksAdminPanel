@@ -11,9 +11,9 @@ const courseSchema = new mongoose.Schema(
     },
     course_details: {
       type: String,
-      required: true,
-      trim: true,
-      minlength: 10,
+      // required: true,
+      // trim: true,
+      // minlength: 10,
     },
     author: {
       type: String,
@@ -42,12 +42,12 @@ const courseSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 50,
     },
-    course_img: {
+    coverImage: {
       type: String,
       default: "",
       trim: true,
     },
-    author_img: {
+    avatar: {
       type: String,
       default: "",
       trim: true,

@@ -16,7 +16,7 @@ const upload = multer({ dest: "uploads/" });
 router.post(
   "/addcourse",
   auth,
-  upload.fields([{ name: "courseImage" }, { name: "authorImage" }]),
+  upload.fields([{ name: "coverImage" }, { name: "avatar" }]),
   addCourse
 );
 
@@ -30,7 +30,7 @@ router.get("/courses", auth, getAllCourses);
 router.put(
   "/courses/:id",
   auth,
-  upload.fields([{ name: "courseImage" }, { name: "authorImage" }]),
+  upload.fields([{ name: "coverImage" }, { name: "avatar" }]),
   updateCourse
 );
 
