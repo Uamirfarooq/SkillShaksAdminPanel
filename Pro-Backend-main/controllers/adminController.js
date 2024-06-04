@@ -78,4 +78,9 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login, createPredefinedAdmin };
+const logout = async (req, res) => {
+  res.clearCookie("accessToken");
+  res.status(200).json("Logout successfully");
+};
+
+module.exports = { login, createPredefinedAdmin, logout };
