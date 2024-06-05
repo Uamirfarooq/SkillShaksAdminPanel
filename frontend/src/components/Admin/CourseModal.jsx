@@ -1,16 +1,87 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const CourseModal = ({ closeModal , courseName }) => {
+const CourseModal = ({ closeModal, Name }) => {
   // const path = "https://imgv3.fotor.com/images/slider-image/A-clear-close-up-photo-of-a-woman.jpg"
 
   const [imageDeleted, setImageDeleted] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageUploaded, setImageUploaded] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
+  
+
+  const navigate = useNavigate();
+  const [authorName, setAuthorName] = useState("");
+  const [coursename, setCourseName] = useState("");
+  const [courseCategory, setCourseCategory] = useState("");
+  const [courseLevel, setCourseLevel] = useState("");
+  const [coursePrice, setCoursePrice] = useState("");
+  const [courseImage, setCourseImage] = useState(null);
+
+  const [authorImage, setAuthorImage] = useState(null);
+
+  const handleAddCourse = async () => {
+    // Create form data to send to backend
+    const formData = new FormData();
+    formData.append("course_name", coursename);
+    formData.append("course_details", ""); // Add course details if available
+    formData.append("author", authorName);
+    formData.append("level", courseLevel);
+    formData.append("category", courseCategory);
+    formData.append("coverImage", courseImage);
+    formData.append("avatar", authorImage);
+    formData.append("price", coursePrice);
+    navigate("/admin/dashboard");
+    const token = localStorage.getItem("accessToken");
+    console.log("this is token .. ", token);
+    try {
+      if (!courseImage) {
+        console.error("Cover image is required");
+        // You can handle this error scenario here, such as displaying a message to the user
+        return;
+      }
+      const response = await fetch(
+        "http://localhost:5500/api/v1/admin/addcourse",
+        {
+          method: "POST",
+          body: formData,
+          // cookies: token
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add course");
+      }
+
+      console.log("Course added successfully");
+
+      navigate("/admin/dashboard");
+      // Reset form fields after successful submission
+      setAuthorName("");
+      setCourseName("");
+      setCourseCategory("");
+      setCourseLevel("");
+      setCourseImage(null);
+      setCoursePrice("");
+      setAuthorImage(null);
+    } catch (error) {
+      console.error("Error adding course:", error.message);
+      // Handle error scenario here (e.g., show error message to user)
+    }
+  };
+
+  // const handleAvatarChange = (event) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     setSelectedAvatar(URL.createObjectURL(event.target.files[0]));
+  //   }
+  // };
 
   const handleAvatarChange = (event) => {
     if (event.target.files && event.target.files[0]) {
+      // Update selectedAvatar state
       setSelectedAvatar(URL.createObjectURL(event.target.files[0]));
+      // Update authorImage state
+      setAuthorImage(event.target.files[0]);
     }
   };
 
@@ -26,10 +97,21 @@ const CourseModal = ({ closeModal , courseName }) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setSelectedImage(reader.result);
+      // setSelectedImage(reader.result);
+      setSelectedImage(URL.createObjectURL(event.target.files[0]));
+      setCourseImage(event.target.files[0]);
       setImageUploaded(true);
     };
   };
+
+  // const handleUploadImage = (event) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     // Update selectedImage state
+  //     setSelectedImage(URL.createObjectURL(event.target.files[0]));
+  //     // Update courseImage state
+  //     setCourseImage(event.target.files[0]);
+  //   }
+  // };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden flex justify-center items-center w-full h-full bg-black bg-opacity-50">
@@ -39,7 +121,7 @@ const CourseModal = ({ closeModal , courseName }) => {
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              {courseName}
+              {Name}
             </h3>
             <button
               type="button"
@@ -61,11 +143,10 @@ const CourseModal = ({ closeModal , courseName }) => {
                   d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                 />
               </svg>
-              <span className="sr-only">Close modal</span>
             </button>
           </div>
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form onSubmit={handleAddCourse} className="p-4 md:p-5">
             <div className="grid gap-4 mb-4 md:grid-cols-2">
               {/* Name */}
               <div className="">
@@ -73,11 +154,13 @@ const CourseModal = ({ closeModal , courseName }) => {
                   htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Course Name
+                  Author Name
                 </label>
                 <input
                   type="text"
-                  name="name"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  name="author"
                   id="name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
@@ -87,11 +170,13 @@ const CourseModal = ({ closeModal , courseName }) => {
                   htmlFor="author"
                   className="block mb-2 mt-5 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Author Name
+                  Course Name
                 </label>
                 <input
+                  onChange={(e) => setCourseName(e.target.value)}
+                  value={coursename}
                   type="text"
-                  name="author"
+                  name="course_name"
                   id="author"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
@@ -112,7 +197,7 @@ const CourseModal = ({ closeModal , courseName }) => {
                   <label htmlFor="fileInput">
                     {selectedAvatar ? (
                       <img
-                        className="w-24 h-24 object-cover rounded-full border border-gray-300 cursor-pointer transition-opacity duration-300 ease-in-out hover:opacity-75"
+                        className="w-24 h-24 object-cover object-top rounded-full border border-gray-300 cursor-pointer transition-opacity duration-300 ease-in-out hover:opacity-75"
                         src={selectedAvatar}
                         alt="avatar"
                       />
@@ -157,20 +242,56 @@ const CourseModal = ({ closeModal , courseName }) => {
                     </div>
                   ) : (
                     <img
-                      className="absolute w-full h-full object-contain bg-black rounded-lg transition-transform duration-300 ease-in-out hover:bg-slate-500"
+                      className="absolute w-full h-full object-contain bg-black rounded-lg transition-transform duration-300 ease-in-out "
                       src={selectedImage}
                       alt="img"
                     />
                   )}
                   <div className="absolute top-0 right-0 mt-2 mr-2">
                     {!imageDeleted && selectedImage && (
-                      <button
-                        type="button"
+                      <svg
                         onClick={handleDeleteImage}
-                        className="text-red-500 hover:text-red-700"
+                        className="w-6 h-6 cursor-pointer hover:bg-slate-500 rounded-full "
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        Delete Image
-                      </button>
+                        <path
+                          d="M3 6H21"
+                          stroke="#FF0000"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M5 6V20C5 21.1046 5.89543 22 7 22H17C18.1046 22 19 21.1046 19 20V6"
+                          stroke="#FF0000"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M8 6V4C8 2.89543 8.89543 2 10 2H14C15.1046 2 16 2.89543 16 4V6"
+                          stroke="#FF0000"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M14 11V17"
+                          stroke="#FF0000"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M10 11V17"
+                          stroke="#FF0000"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     )}
                   </div>
                   <div className="absolute bottom-3 left-0 right-0 flex justify-center mt-2">
@@ -220,6 +341,8 @@ const CourseModal = ({ closeModal , courseName }) => {
                   </label>
                   <select
                     id="category"
+                    onChange={(e) => setCourseCategory(e.target.value)}
+                    value={courseCategory}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   >
                     <option defaultValue>Select category</option>
@@ -231,7 +354,7 @@ const CourseModal = ({ closeModal , courseName }) => {
                   </select>
                 </div>
                 {/* Level */}
-                <div className="mt-3">
+                <div className="mt-3 mb-3">
                   <label
                     htmlFor="level"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -240,21 +363,40 @@ const CourseModal = ({ closeModal , courseName }) => {
                   </label>
                   <select
                     id="level"
+                    onChange={(e) => setCourseLevel(e.target.value)}
+                    value={courseLevel}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   >
                     <option defaultValue>Select level</option>
-                    <option value="Basic">Basic</option>
+                    <option value="Beginner">Beginner</option>
                     <option value="Intermediate">Intermediate</option>
                     <option value="Advanced">Advanced</option>
                   </select>
                 </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label
+                    htmlFor="price"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    name="price"
+                    id="price"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="$2999"
+                    value={coursePrice}
+                    onChange={(e) => setCoursePrice(e.target.value)}
+                  />
+                </div>
               </div>
               {/* Category */}
-              <div className="col-span-2 flex justify-end">
+              <div className="col-span-2  flex justify-end border-t rounded-t dark:border-gray-600">
                 <button
-                  type="button"
+                  type="submit"
                   // onClick={handleSave}
-                  className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+                  className="px-4 py-2 mt-8 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
                 >
                   Save
                 </button>
