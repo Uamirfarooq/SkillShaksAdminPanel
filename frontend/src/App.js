@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateCourse from "../src/pages/Admin/CreateCourse.jsx";
-import Dashboard from "../src/pages/Admin/Dashboard.jsx";
-import Registration from "../src/pages/Admin/Registration.jsx";
-import CourseDetail from "../src/pages/Admin/CourseDetail.jsx";
+import CreateCourse from "../src/Pages/Admin/CreateCourse.jsx";
+import Dashboard from "../src/Pages/Admin/Dashboard.jsx";
+import Registration from "../src/Pages/Admin/Registration.jsx";
+import CourseDetail from "../src/Pages/Admin/CourseDetail.jsx";
 
-import Navbar from "../src/components/Navbar/Navbar.jsx";
+import Navbar from "../src/components/Admin/Navbar.jsx";
 import Footer from "../src/components/Admin/Footer.jsx";
-import AnalyticsPage from "../src/pages/Admin/Analytics.jsx";
-import UserListPage from "../src/pages/Admin/UserListPage.jsx";
-import UserProfilePage from "../src/pages/Admin/UserProfilePage.jsx";
-import AdminHomePage from "../src/pages/Admin/Home.jsx";
+import AnalyticsPage from "../src/Pages/Admin/Analytics.jsx";
+import UserListPage from "../src/Pages/Admin/UserListPage.jsx";
+import UserProfilePage from "../src/Pages/Admin/UserProfilePage.jsx";
+import AdminHomePage from "../src/Pages/Admin/Home.jsx";
 import ProtectedRoute from "../src/components/ProtectedRoutes.js";
-import NotFoundPage from "../src/pages/Admin/NotFoundPage.jsx";
+import NotFoundPage from "../src/Pages/Admin/NotFoundPage.jsx";
 
 function App() {
   return (
