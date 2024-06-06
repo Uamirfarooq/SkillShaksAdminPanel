@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateCourse from "./Pages/Admin/CreateCourse.jsx";
-import Dashboard from "./Pages/Admin/Dashboard.jsx";
-import Registration from "./Pages/Admin/Registration.jsx";
-import CourseDetail from "./Pages/Admin/CourseDetail.jsx";
+import CreateCourse from "../src/Pages/Admin/CreateCourse.jsx";
+import Dashboard from "../src/Pages/Admin/Dashboard.jsx";
+import Registration from "../src/Pages/Admin/Registration.jsx";
+import CourseDetail from "../src/Pages/Admin/CourseDetail.jsx";
 
-import Navbar from "./components/Admin/Navbar.jsx";
-import Footer from "./components/Admin/Footer.jsx";
-import AnalyticsPage from "./Pages/Admin/Analytics.jsx";
-import UserListPage from "./Pages/Admin/UserListPage.jsx";
-import UserProfilePage from "./Pages/Admin/UserProfilePage.jsx";
-import AdminHomePage from "./Pages/Admin/Home.jsx";
-import ProtectedRoute from "./components/ProtectedRoutes.js";
-import NotFoundPage from "./Pages/Admin/NotFoundPage.jsx";
+import Navbar from "../src/components/Admin/Navbar.jsx";
+import Footer from "../src/components/Admin/Footer.jsx";
+import AnalyticsPage from "../src/Pages/Admin/Analytics.jsx";
+import UserListPage from "../src/Pages/Admin/UserListPage.jsx";
+import UserProfilePage from "../src/Pages/Admin/UserProfilePage.jsx";
+import AdminHomePage from "../src/Pages/Admin/Home.jsx";
+import ProtectedRoute from "../src/components/ProtectedRoutes.js";
+import NotFoundPage from "../src/Pages/Admin/NotFoundPage.jsx";
 
 function App() {
   return (
@@ -41,7 +41,8 @@ function App() {
             }
           />
           <Route path="/admin/addCourse" element={<ProtectedRoute><CreateCourse /></ProtectedRoute>} />
-          <Route path="/admin/courseDetail" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
+          {/* Update the route for CourseDetail to accept course ID as a parameter */}
+          <Route path="/admin/courseDetail/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
           <Route path="/admin/manage-user" element={<ProtectedRoute><UserListPage /></ProtectedRoute>} />
           <Route path="/admin/user/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
         </Routes>

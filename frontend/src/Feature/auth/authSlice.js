@@ -11,7 +11,7 @@ export const refreshToken = createAsyncThunk('auth/refreshToken', async (_, { ge
     }
   });
 
-  if (response.ok) {
+  if (response) {
     const data = await response.json();
     localStorage.setItem('accessToken', data.accessToken);
     return data.accessToken;
