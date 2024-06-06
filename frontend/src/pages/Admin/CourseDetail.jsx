@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Modal from '../../components/Admin/Modal';
+import VideoModal from '../../components/Admin/VideoModal';
 import CourseModal from '../../components/Admin/CourseModal';
 import axios from 'axios';
+import VideoList from '../../components/Admin/VideoList';
 
 // const path = 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp';
 
@@ -83,10 +84,13 @@ const CourseDetail = () => {
       </div>
       {/* {console.log(avatar)} */}
       <div>
-        <Modal />
+        <VideoModal />
+      </div>
+      <div>
+        <VideoList/>
       </div>
       {isModalOpen && (
-        <CourseModal closeModal={toggleModal} courseName= "Edit Course" />
+        <CourseModal closeModal={toggleModal} Name= "Edit Course" />
       )}
     </div>
   );
