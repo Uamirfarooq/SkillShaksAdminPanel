@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
-
-function AddCourse() {
+function CreateCourse() {
   const navigate = useNavigate();
   const [authorName, setAuthorName] = useState('');
   const [courseName, setCourseName] = useState('');
@@ -13,9 +12,11 @@ function AddCourse() {
   const [courseImagePreview, setCourseImagePreview] = useState('');
   const [authorImage, setAuthorImage] = useState(null);
   const [authorImagePreview, setAuthorImagePreview] = useState('');
+  const accessToken = localStorage.getItem('accessToken');
 
-  const handleAddCourse = async () => {
-    // Create form data to send to backend
+  const handleAddCourse = async (e) => {
+    e.preventDefault();
+
     const formData = new FormData();
     formData.append('course_name', courseName);
     formData.append('course_details', ''); // Add course details if available
@@ -24,24 +25,19 @@ function AddCourse() {
     formData.append('category', courseCategory);
     formData.append('coverImage', courseImage);
     formData.append('avatar', authorImage);
-    navigate("/admin/dashboard")
-    const token = localStorage.getItem("accessToken");
-    console.log("this is token .. ", token);
+
     try {
-      const response = await fetch('http://localhost:5500/api/v1/admin/addcourse', {
-        method: 'POST',
-        body: formData,
-        cookies: token
+      const response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-
-      if (!response.ok) {
-        throw new Error('Failed to add course');
-      }
-
+      console.log('Response:', response.data);
       console.log('Course added successfully');
-
       navigate('/admin/dashboard');
+
       // Reset form fields after successful submission
       setAuthorName('');
       setCourseName('');
@@ -150,7 +146,6 @@ function AddCourse() {
             <div className="mt-2 rounded-full overflow-hidden border-2 border-blue-500 w-20 h-20">
               <img src={authorImagePreview} alt="Author Preview" className="w-full h-full object-top object-cover" />
             </div>
-
           )}
         </div>
         <button
@@ -160,9 +155,8 @@ function AddCourse() {
           Add Course
         </button>
       </form>
-      
     </div>
   );
 }
 
-export default AddCourse;
+export default CreateCourse;
