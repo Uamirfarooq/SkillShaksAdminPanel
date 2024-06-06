@@ -2,63 +2,43 @@ import React, { useEffect, useState } from 'react';
 import VideoModal from '../../components/Admin/VideoModal';
 import CourseModal from '../../components/Admin/CourseModal';
 import axios from 'axios';
-
-import { useParams } from 'react-router-dom'; // Import useParams to access route parameters
-=======
 import VideoList from '../../components/Admin/VideoList';
-
-// const path = 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp';
-
 
 const CourseDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [courseDetails, setCourseDetails] = useState(null); // State to hold course details
-  const { id } = useParams(); // Access the course ID from the route parameters
+
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     const fetchCourseData = async () => {
-      const accessToken = localStorage.getItem('accessToken');
       try {
-        // Use the course ID in the API endpoint to fetch specific course details
-        const response = await axios.get(`http://localhost:5500/api/v1/admin/getcourse/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        });
+        const response = await axios.get("http://localhost:5500/api/v1/admin/getcourse");
         console.log(response);
-        if (response.data.data) {
-          setCourseDetails(response.data.data);
+        if (Array.isArray(response.data.data)) {
+          setCourses(response.data.data);
         } else {
-          console.error("Course not found");
+          console.error("Unexpected response structure:", response.data);
         }
       } catch (error) {
         console.error("Error fetching course data:", error);
-        if (error.response && error.response.status === 401) {
-          console.error("Unauthorized access - possibly due to an invalid or expired token.");
-          // You might want to redirect the user to the login page here
-        }
       }
     };
 
     fetchCourseData();
-  }, [id]); // Add id to the dependency array to fetch data when the ID changes
+  }, []);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-
-  if (!courseDetails) {
-    return <div>Loading...</div>; // Show a loading indicator while fetching data
-  }
 
   return (
     <div className='flex'>
       <div className="sidebar h-[94vh] lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
         <div className='flex items-center justify-between'>
           <div className="w-24 h-24 sm:w-16 sm:h-16 rounded-full overflow-hidden shadow-lg border-4 border-gray-300">
-            <img src={courseDetails.author_img} alt="avatar" className="w-full h-full object-cover" />
+            <img src={courses.author_img} alt="avatar" className="w-full h-full object-cover" />
           </div>
-          <h1 className='text-yellow-500 min-w-28 inline-block'>{courseDetails.author}</h1>
+          <h1 className='text-yellow-500 min-w-28 inline-block'>Umair farooq</h1>
           <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             Edit
           </button>
@@ -83,15 +63,15 @@ const CourseDetail = () => {
           <div className="p-5 flex flex-col items-start">
             <div className='flex relative'>
               <label className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out '>Course Name</label>
-              <h1 className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out absolute left-36'>{courseDetails.course_name}</h1>
+              <h1 className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out absolute left-36'>Python</h1>
             </div>
             <div className='flex relative'>
               <label className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out '>Course Category</label>
-              <h1 className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out absolute left-36'>{courseDetails.category}</h1>
+              <h1 className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out absolute left-36'>Intermediate</h1>
             </div>
             <div className='flex relative'>
               <label className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out '>Course Level</label>
-              <h1 className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out absolute left-36'>{courseDetails.level}</h1>
+              <h1 className='text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition duration-300 ease-in-out absolute left-36'>Advance</h1>
             </div>
           </div>
         </div>
@@ -100,6 +80,7 @@ const CourseDetail = () => {
           <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
         </div>
       </div>
+      {/* {console.log(avatar)} */}
       <div>
         <VideoModal />
       </div>
@@ -107,14 +88,11 @@ const CourseDetail = () => {
         <VideoList/>
       </div>
       {isModalOpen && (
-
-        <CourseModal closeModal={toggleModal} courseName="Edit Course" />
-=======
         <CourseModal closeModal={toggleModal} Name= "Edit Course" />
-
       )}
     </div>
   );
 };
 
 export default CourseDetail;
+
