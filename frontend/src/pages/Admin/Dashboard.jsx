@@ -15,7 +15,7 @@ function Dashboard() {
             Authorization: `Bearer ${accessToken}`
           }
         });
-        console.log(response);
+        
         setCourseData(response.data.data);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -23,7 +23,7 @@ function Dashboard() {
     };
 
     fetchCourseData();
-  }, []);
+  },[]);
 
   const CourseCard = ({
     course_name,
@@ -33,6 +33,7 @@ function Dashboard() {
     author,
     level,
     id,
+    price,
   }) => {
     return (
       <Link to={`/admin/courseDetail/${id}`}> {/* Update URL to include course ID */}
@@ -78,7 +79,7 @@ function Dashboard() {
                 </span>
                 <div className="flex items-center justify-between absolute right-5">
                   <span className="text-lg font-bold text-gray-900 dark:text-white">
-                    $599
+                    {price}
                   </span>
                 </div>
               </div>
@@ -104,6 +105,7 @@ function Dashboard() {
               author={course.author}
               level={course.level}
               id={course._id}
+              price={course.price}
             />
           ))}
       </div>

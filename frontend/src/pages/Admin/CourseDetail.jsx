@@ -3,33 +3,68 @@ import VideoModal from '../../components/Admin/VideoModal';
 import CourseModal from '../../components/Admin/CourseModal';
 import axios from 'axios';
 import VideoList from '../../components/Admin/VideoList';
+import { useNavigate } from 'react-router-dom';
 
 const CourseDetail = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const navigate = useNavigate
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
-    const fetchCourseData = async () => {
-      try {
-        const response = await axios.get("http://localhost:5500/api/v1/admin/getcourse");
-        console.log(response);
-        if (Array.isArray(response.data.data)) {
-          setCourses(response.data.data);
-        } else {
-          console.error("Unexpected response structure:", response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching course data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCourseData = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:5500/api/v1/admin/getcourse");
+  //       console.log(response);
+  //       if (Array.isArray(response.data.data)) {
+  //         setCourses(response.data.data);
+  //       } else {
+  //         console.error("Unexpected response structure:", response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching course data:", error);
+  //     }
+  //   };
 
-    fetchCourseData();
-  }, []);
+  //   fetchCourseData();
+  // }, []);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
+  function getUserIdFromCurrentUrl() {
+    try {
+      const urlObj = new URL(window.location.href);
+      const pathSegments = urlObj.pathname.split('/');
+
+      // Check if user ID is in the query parameters
+      let userId = urlObj.searchParams.get('userId');
+
+      // If not in query parameters, assume it's the last segment in the URL path
+      if (!userId) {
+        userId = pathSegments[pathSegments.length - 1];
+      }
+
+      return userId;
+    } catch (error) {
+      console.error("Invalid URL:", error);
+      return null;
+    }
+  }
+
+  const userid = getUserIdFromCurrentUrl();
+
+  const DeleteCourse = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:5500/api/v1/delete-course/${userid}`);
+      console.log("Course deleted successfully", response);
+     
+      // Optionally, you can refresh the course list or navigate to another page
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  }
 
   return (
     <div className='flex'>
@@ -77,22 +112,20 @@ const CourseDetail = () => {
         </div>
         <div className="my-4 bg-gray-600 h-[1px]"></div>
         <div className='flex h-56 flex-col justify-end items-end'>
-          <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
+          <button onClick={DeleteCourse} type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
         </div>
       </div>
-      {/* {console.log(avatar)} */}
       <div>
         <VideoModal />
       </div>
       <div>
-        <VideoList/>
+        <VideoList />
       </div>
       {isModalOpen && (
-        <CourseModal closeModal={toggleModal} Name= "Edit Course" />
+        <CourseModal closeModal={toggleModal} Name="Edit Course" />
       )}
     </div>
   );
 };
 
 export default CourseDetail;
-

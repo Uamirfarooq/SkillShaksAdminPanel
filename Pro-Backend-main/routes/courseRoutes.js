@@ -35,6 +35,6 @@ router.put(
 );
 
 // Route to delete a course by ID
-router.delete("/courses/:id", auth, deleteCourse);
+router.delete("/delete-course/:id",  deleteCourse);
 
 module.exports = router;

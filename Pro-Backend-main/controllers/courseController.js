@@ -8,7 +8,7 @@ dotenv.config();
 
 // Define the addCourse controller function
 const addCourse = async (req, res) => {
-  const { course_name, course_details, author, level, category } = req.body;
+  const { course_name, course_details, author, level, category,price } = req.body;
   const coverImage = req.files.coverImage[0];
   const avatar = req.files.avatar[0];
 
@@ -26,6 +26,7 @@ const addCourse = async (req, res) => {
       author,
       level,
       category,
+      price,
       coverImage: courseImageUpload.Location,
       avatar: authorImageUpload.Location,
     });

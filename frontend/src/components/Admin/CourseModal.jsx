@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CourseModal = ({ closeModal, Name }) => {
-  // const path = "https://imgv3.fotor.com/images/slider-image/A-clear-close-up-photo-of-a-woman.jpg"
 
   const [imageDeleted, setImageDeleted] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -20,7 +20,63 @@ const CourseModal = ({ closeModal, Name }) => {
 
   const [authorImage, setAuthorImage] = useState(null);
 
-  const handleAddCourse = async () => {
+  // const handleAddCourse = async (e) => {
+  //   e.preventDefault();
+  //   console.log('sas');
+  //   // Create form data to send to backend
+  //   const formData = new FormData();
+  //   formData.append("course_name", coursename);
+  //   formData.append("course_details", ""); // Add course details if available
+  //   formData.append("author", authorName);
+  //   formData.append("level", courseLevel);
+  //   formData.append("category", courseCategory);
+  //   formData.append("coverImage", courseImage);
+  //   formData.append("avatar", authorImage);
+  //   formData.append("price", coursePrice);
+  //   navigate("/admin/dashboard");
+  //   const token = localStorage.getItem("accessToken");
+  //   console.log("this is token .. ", token);
+  //   try {
+  //     if (!courseImage) {
+  //       console.error("Cover image is required");
+  //       // You can handle this error scenario here, such as displaying a message to the user
+  //       return;
+  //     }
+  //   console.log('sas',formData.data);
+
+  //     const response = await fetch(
+  //       "http://localhost:5500/api/v1/admin/addcourse",
+  //       {
+  //         method: "POST",
+  //         body: formData,
+  //         cookies: token
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to add course");
+  //     }
+
+  //     console.log("Course added successfully");
+
+  //     navigate("/admin/dashboard");
+  //     // Reset form fields after successful submission
+  //     setAuthorName("");
+  //     setCourseName("");
+  //     setCourseCategory("");
+  //     setCourseLevel("");
+  //     setCourseImage(null);
+  //     setCoursePrice("");
+  //     setAuthorImage(null);
+  //   } catch (error) {
+  //     console.error("Error adding course:", error.message);
+  //     // Handle error scenario here (e.g., show error message to user)
+  //   }
+  // };
+
+  const handleAddCourse = async (e) => {
+    e.preventDefault();
+  
     // Create form data to send to backend
     const formData = new FormData();
     formData.append("course_name", coursename);
@@ -31,30 +87,32 @@ const CourseModal = ({ closeModal, Name }) => {
     formData.append("coverImage", courseImage);
     formData.append("avatar", authorImage);
     formData.append("price", coursePrice);
-    navigate("/admin/dashboard");
-    const token = localStorage.getItem("accessToken");
-    console.log("this is token .. ", token);
+  
+    // Log FormData entries
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+  
+    const accessToken = localStorage.getItem("accessToken");
+    console.log("Token:", accessToken);
+  
     try {
       if (!courseImage) {
         console.error("Cover image is required");
         // You can handle this error scenario here, such as displaying a message to the user
         return;
       }
-      const response = await fetch(
-        "http://localhost:5500/api/v1/admin/addcourse",
-        {
-          method: "POST",
-          body: formData,
-          // cookies: token
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to add course");
-      }
-
+  
+      const response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  console.log(response);
+  
       console.log("Course added successfully");
-
+  
       navigate("/admin/dashboard");
       // Reset form fields after successful submission
       setAuthorName("");
@@ -64,11 +122,13 @@ const CourseModal = ({ closeModal, Name }) => {
       setCourseImage(null);
       setCoursePrice("");
       setAuthorImage(null);
+      closeModal()
     } catch (error) {
       console.error("Error adding course:", error.message);
       // Handle error scenario here (e.g., show error message to user)
     }
   };
+  
 
   // const handleAvatarChange = (event) => {
   //   if (event.target.files && event.target.files[0]) {
