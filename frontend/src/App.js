@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateCourse from "../src/Pages/Admin/CreateCourse.jsx";
 import Dashboard from "../src/Pages/Admin/Dashboard.jsx";
-import Registration from "../src/Pages/Admin/Registration.jsx";
 import CourseDetail from "../src/Pages/Admin/CourseDetail.jsx";
 
 import Navbar from "../src/components/Admin/Navbar.jsx";
@@ -13,6 +12,7 @@ import AdminHomePage from "../src/Pages/Admin/Home.jsx";
 import ProtectedRoute from "../src/components/ProtectedRoutes.js";
 import NotFoundPage from "../src/Pages/Admin/NotFoundPage.jsx";
 import ForgetPass from "./Pages/Admin/ForgetPass.jsx";
+import LoginPage from "./Pages/Admin/LoginPage.jsx";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<AdminHomePage />} />
-          <Route path="/admin/register" element={<Registration />} />
+          <Route path="/admin/Login" element={<LoginPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/forget-password" element={<ForgetPass />} />
 
