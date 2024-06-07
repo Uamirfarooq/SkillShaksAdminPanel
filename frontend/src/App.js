@@ -12,6 +12,7 @@ import UserProfilePage from "../src/Pages/Admin/UserProfilePage.jsx";
 import AdminHomePage from "../src/Pages/Admin/Home.jsx";
 import ProtectedRoute from "../src/components/ProtectedRoutes.js";
 import NotFoundPage from "../src/Pages/Admin/NotFoundPage.jsx";
+import ForgetPass from "./Pages/Admin/ForgetPass.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<AdminHomePage />} />
           <Route path="/admin/register" element={<Registration />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/forget-password" element={<ForgetPass />} />
 
           <Route
             path="/admin/analytics"
