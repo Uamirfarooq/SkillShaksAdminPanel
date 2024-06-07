@@ -72,7 +72,7 @@ function Registration() {
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="block text-sm font-medium leading-6">Password</label>
               <div className="text-sm">
-                <Link to="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</Link>
+                <Link to="/forget-password" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</Link>
               </div>
             </div>
             <div className="mt-2">
