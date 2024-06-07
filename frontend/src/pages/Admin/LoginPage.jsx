@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../Feature/auth/authSlice';
 
 
-function Registration() {
+function LoginPage
+() {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -101,8 +102,8 @@ function Registration() {
         </form>
 
         <p className="mt-10 text-center text-sm">
-          Not a member?
-          <Link to="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</Link>
+          Not a member? Contect Admin Support Or 
+          <Link to="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">  Home Page</Link>
         </p>
 
         <div className="mt-6 text-center">
@@ -112,4 +113,5 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default LoginPage
+;
