@@ -21,7 +21,7 @@ router.post(
 );
 
 // Route to get a specific course by ID
-router.get("/admin/getcourse/:id", auth, getCourse);
+router.get("/admin/getcourse/:id", getCourse);
 
 // Route to get all courses
 router.get("/admin/getcourse", auth, getAllCourses);

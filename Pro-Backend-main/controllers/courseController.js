@@ -103,11 +103,21 @@ const updateCourse = async (req, res) => {
 const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find();
-    res.status(200).json({ data: courses });
+    res.status(200).json({ success: true, data: courses });
   } catch (error) {
-    res.status(500).json(error);
+    console.error('Error fetching courses:', error);
+    res.status(500).json({ success: false, message: 'Server Error', error: error.message });
   }
 };
+
+// const getAllCourses = async (req, res) => {
+//   try {
+//     const courses = await Course.find();
+//     res.status(200).json({ data: courses });
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
 
 // Controller function for deleting the course
 const deleteCourse = async (req, res) => {

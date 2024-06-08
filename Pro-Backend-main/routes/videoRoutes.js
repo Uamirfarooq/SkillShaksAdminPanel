@@ -8,7 +8,7 @@ const upload = multer({ dest: "uploads/" });
 
 router.post(
   "/add-video/:id",
-  auth,
+ 
   upload.fields([{ name: "video" }, { name: "thumbnail" }]),
   addVideo
 );

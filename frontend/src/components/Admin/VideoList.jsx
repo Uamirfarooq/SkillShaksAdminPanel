@@ -42,70 +42,37 @@ const VideoList = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow rounded-lg">
-      <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <thead>
-          <tr className="bg-gray-50 border-b border-gray-200">
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Video
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Name
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Visibility
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Restrictions
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Date
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Views
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Comments
-            </th>
-            <th className="p-4 text-left text-sm font-medium text-gray-500 uppercase">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {videos.map((video, index) => (
-            <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition duration-300">
-              <td className="p-4 text-sm text-gray-700 flex items-center">
-                <img src={video.thumbnail} alt="thumbnail" className="w-20 h-12 object-cover rounded-lg shadow-sm" />
-              </td>
-              <td className="p-4 text-sm text-gray-700">
-                {video.name}
-              </td>
-              <td className="p-4 text-sm text-gray-700">
-                {video.visibility}
-              </td>
-              <td className="p-4 text-sm text-gray-700">
-                None
-              </td>
-              <td className="p-4 text-sm text-gray-700">
-                {video.date}
-              </td>
-              <td className="p-4 text-sm text-gray-700">
-                {video.views}
-              </td>
-              <td className="p-4 text-sm text-gray-700">
-                {video.comments}
-              </td>
-              <td className="p-4 text-sm">
-                <button className="text-blue-600 hover:underline">
-                  EDIT DRAFT
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container ml-[3vw] w-[74vw] max-[1200px]:w-[69vw] max-[900px]:w-[55vw] mx-auto p-6 bg-white shadow rounded-lg">
+  <div className="flex flex-col gap-3">
+    <div className="flex bg-gray-50 border-b gap-3 border-gray-200 p-4 ">
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Video</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Name</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Visibility</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase hidden sm:block">Restrictions</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Date</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Views</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Comments</div>
+      <div className="w-1/4 text-left text-sm font-medium text-gray-500 uppercase">Actions</div>
     </div>
+    {videos.map((video, index) => (
+      <div key={index} className="flex items-center border-b gap-3 border-gray-200 p-4 hover:bg-gray-50 transition duration-300">
+        <div className="w-1/4 text-sm text-gray-700 flex items-center">
+          <img src={video.thumbnail} alt="thumbnail" className="w-20 h-12 object-cover rounded-lg shadow-sm" />
+        </div>
+        <div className="w-1/4 text-sm text-gray-700">{video.name}</div>
+        <div className="w-1/4 text-sm text-gray-700">{video.visibility}</div>
+        <div className="w-1/4 text-sm text-gray-700 hidden sm:block">None</div>
+        <div className="w-1/4 text-sm text-gray-700">{video.date}</div>
+        <div className="w-1/4 text-sm text-gray-700">{video.views}</div>
+        <div className="w-1/4 text-sm text-gray-700">{video.comments}</div>
+        <div className="w-1/4 text-sm">
+          <button className="text-blue-600 hover:underline">EDIT DRAFT</button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
   );
 };
 

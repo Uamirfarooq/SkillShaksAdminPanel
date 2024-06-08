@@ -1,14 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import AddIcon from "../../components/Admin/AddIcon";
 
 function Dashboard() {
   const [courseData, setCourseData] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
 
-  useEffect(() => {
-    const fetchCourseData = async () => {
+   const fetchCourseData = async () => {
       try {
         const response = await axios.get("http://localhost:5500/api/v1/admin/getcourse", {
           headers: {
@@ -21,8 +20,8 @@ function Dashboard() {
         console.error("Error fetching course data:", error);
       }
     };
-
-    fetchCourseData();
+  useEffect(() => {
+    fetchCourseData(); 
   },[]);
 
   const CourseCard = ({
@@ -30,6 +29,7 @@ function Dashboard() {
     course_details,
     coverImage,
     avatar,
+    category,
     author,
     level,
     id,
@@ -46,10 +46,21 @@ function Dashboard() {
                 alt="product"
               />
             </div>
-            <div className="px-2">
-              <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <div className="flex">
+            <img
+              className="w-12 h-12 rounded-full object-cover border-2 border-orange-500"
+              src={avatar}
+              alt="Profile"
+            />
+              <div className="ml-4">
+              <h5 className="text-xl  font-semibold tracking-tight text-gray-900 dark:text-white">
                 {course_name}
               </h5>
+              <p>Lorem ipsum dolor sit amet consectetur....</p>
+              </div>
+            </div>
+            <div className="px-2 ">
+            
               <div className="relative flex items-center mt-2.5 mb-5">
                 <div className="flex items-center space-x-1 rtl:space-x-reverse">
                   {[...Array(4)].map((_, index) => (
@@ -92,7 +103,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="grid grid-cols-1 m-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid  h-[92vh] grid-cols-1 m-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {console.log(courseData)}
         {Array.isArray(courseData) &&
           courseData.map((course, index) => (
@@ -103,6 +114,7 @@ function Dashboard() {
               coverImage={course.coverImage} /* Ensure correct prop name */
               avatar={course.avatar} /* Ensure correct prop name */
               author={course.author}
+              category={course.category}
               level={course.level}
               id={course._id}
               price={course.price}

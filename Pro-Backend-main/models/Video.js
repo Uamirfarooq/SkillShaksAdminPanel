@@ -28,8 +28,7 @@ const videoSchema = new mongoose.Schema(
       required: true,
     },
     week: {
-      type: Number,
-      required: true,
+      type: Number,  
       min: 1,
       max: 52,
     },

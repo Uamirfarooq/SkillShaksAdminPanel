@@ -123,6 +123,7 @@ const CourseModal = ({ closeModal, Name }) => {
       setCoursePrice("");
       setAuthorImage(null);
       closeModal()
+      navigate(0)
     } catch (error) {
       console.error("Error adding course:", error.message);
       // Handle error scenario here (e.g., show error message to user)
