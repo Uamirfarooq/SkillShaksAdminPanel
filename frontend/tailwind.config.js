@@ -35,6 +35,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('@tailwindcss/aspect-ratio'),
    function ({ addUtilities }) {
       const newUtilities = {
         '.scrollbar-thin': {
@@ -58,5 +59,6 @@ module.exports = {
 
         addUtilities(newUtilities, ["responsive", "hover"])
       }
+
   ],
 }

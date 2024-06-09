@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../Feature/auth/authSlice';
 
-
-function LoginPage
-() {
-  const dispatch = useDispatch()
+function LoginPage() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -23,20 +21,17 @@ function LoginPage
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5500/api/v1/admin/adminlogin', {
+      const response = await axiosInstance.post('/admin/adminlogin', {
         email,
         password
       });
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      const user = response.data.data.user;
+      const { accessToken, refreshToken, user } = response.data.data;
 
       localStorage.setItem("accessToken", JSON.stringify(accessToken));
       localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
 
       dispatch(loginSuccess({ user, accessToken, refreshToken }));
 
-      // Navigate to the admin dashboard if the request is successful
       navigate('/');
     } catch (error) {
       console.error('Error sending data:', error);
@@ -102,7 +97,7 @@ function LoginPage
         </form>
 
         <p className="mt-10 text-center text-sm">
-          Not a member? Contect Admin Support Or 
+          Not a member? Contact Admin Support Or 
           <Link to="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">  Home Page</Link>
         </p>
 
@@ -113,5 +108,4 @@ function LoginPage
   );
 }
 
-export default LoginPage
-;
+export default LoginPage;
