@@ -37,6 +37,7 @@ const courseSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      enum: ["Artificial Intelligence", "Web Development", "Machine Learning"],
       trim: true,
       minlength: 3,
       maxlength: 50,
@@ -48,11 +49,13 @@ const courseSchema = new mongoose.Schema(
     },
     coverImage: {
       type: String,
+      required: true,
       default: "",
       trim: true,
     },
     avatar: {
       type: String,
+      required: true,
       default: "",
       trim: true,
     },
