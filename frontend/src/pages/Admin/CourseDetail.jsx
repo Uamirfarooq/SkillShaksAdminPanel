@@ -79,23 +79,28 @@ const CourseDetail = () => {
 
   return (
     <div className="flex">
-      <div className="sidebar h-[92vh] lg:left-0 p-2 w-[21vw] max-[1070px]:w-[29vw] text-center bg-gray-900">
-        <div className="w-[20vw] max-[1070px]:w-[25vw] bg-white dark:bg-gray-800 border border-gray-200 relative dark:border-gray-700 rounded-lg shadow-md transform transition duration-500 hover:scale-105">
-          <div className="relative group">
-            <img
-              className="w-full h-42 object-cover object-scale-down rounded-t-lg transition duration-300 ease-in-out"
-              src={courseData.coverImage}
-              alt="Video Thumbnail"
-            />
-            <svg
-              onClick={toggleModal}
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-8 hover:opacity-20 hover:bg-slate-50 rounded-2xl absolute z-10 cursor-pointer right-2 top-2 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
-              viewBox="0 0 48 48"
-            >
-              <path d="M38.657 18.536l2.44-2.44c2.534-2.534 2.534-6.658 0-9.193-1.227-1.226-2.858-1.9-4.597-1.9s-3.371.675-4.597 1.901l-2.439 2.439L38.657 18.536zM27.343 11.464L9.274 29.533c-.385.385-.678.86-.848 1.375L5.076 41.029c-.179.538-.038 1.131.363 1.532C5.726 42.847 6.108 43 6.5 43c.158 0 .317-.025.472-.076l10.118-3.351c.517-.17.993-.463 1.378-.849l18.068-18.068L27.343 11.464z"></path>
-            </svg>
+      <div className="sidebar h-[92vh] lg:left-0 p-2 w-[21vw] max-[1070px]:w-[29vw] bg-white text-center">
+        <div className="my-4 group w-[20vw] max-[1070px]:w-[25vw] bg-white dark:bg-gray-800 border border-gray-200 relative dark:border-gray-700 rounded-lg shadow-md transform transition duration-500 hover:scale-105">
+
+          <div className="border m-6 border-gray-500 p-2 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 w-full max-w-sm mx-auto">
+            <div className="aspect-w-16 aspect-h-9">
+              <img
+                className="w-full h-full object-cover rounded-t-lg"
+                src={courseData.coverImage}
+                alt="Video Thumbnail"
+              />
+            </div>
           </div>
+
+          <svg
+            onClick={toggleModal}
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-8 hover:opacity-20 hover:bg-slate-50 rounded-2xl absolute z-10 cursor-pointer right-2 top-2 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
+            viewBox="0 0 48 48"
+          >
+            <path d="M38.657 18.536l2.44-2.44c2.534-2.534 2.534-6.658 0-9.193-1.227-1.226-2.858-1.9-4.597-1.9s-3.371.675-4.597 1.901l-2.439 2.439L38.657 18.536zM27.343 11.464L9.274 29.533c-.385.385-.678.86-.848 1.375L5.076 41.029c-.179.538-.038 1.131.363 1.532C5.726 42.847 6.108 43 6.5 43c.158 0 .317-.025.472-.076l10.118-3.351c.517-.17.993-.463 1.378-.849l18.068-18.068L27.343 11.464z"></path>
+          </svg>
+
           <div className="flex items-center gap-4 p-4">
             <img
               className="w-24 h-24 rounded-full object-cover border-2 border-orange-500"
@@ -132,16 +137,14 @@ const CourseDetail = () => {
             </div>
           </div>
         </div>
-        <div className="my-4 bg-gray-600 h-[1px]"></div>
-
-          <button
-            onClick={openConfirmModal}
-            type="button"
-            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-          >
-            Delete
-          </button>
-        </div>
+        <button
+          onClick={openConfirmModal}
+          type="button"
+          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        >
+          Delete
+        </button>
+      </div>
 
       <div>
         <div>

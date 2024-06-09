@@ -1,22 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Thunk for refreshing the token
-export const refreshToken = createAsyncThunk('auth/refreshToken', async (_, { getState }) => {
+export const refreshToken = createAsyncThunk('auth/refreshToken', async (_, { getState, rejectWithValue }) => {
   const { auth } = getState();
-  const response = await fetch('/api/refresh-token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${auth.refreshToken}`
-    }
-  });
+  try {
+    const response = await fetch('http://localhost:5500/api/v1/admin/refresh-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${auth.refreshToken}`
+      }
+    });
 
-  if (response) {
+    if (!response.ok) {
+      throw new Error('Failed to refresh token');
+    }
+
     const data = await response.json();
-    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
     return data.accessToken;
-  } else {
-    throw new Error('Failed to refresh token');
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
 });
 
@@ -27,7 +31,6 @@ const authSlice = createSlice({
     accessToken: localStorage.getItem('accessToken') || null,
     refreshToken: localStorage.getItem('refreshToken') || null,
     isAuthenticated: !!localStorage.getItem('accessToken'),
-    courses: [] || NaN,
     status: 'idle',
     error: null,
   },
@@ -51,9 +54,11 @@ const authSlice = createSlice({
     builder
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.accessToken = action.payload;
+        state.isAuthenticated = true;
       })
-      .addCase(refreshToken.rejected, (state) => {
+      .addCase(refreshToken.rejected, (state, action) => {
         state.isAuthenticated = false;
+        state.error = action.payload;
       });
   },
 });

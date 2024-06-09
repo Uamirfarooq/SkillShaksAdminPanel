@@ -37,30 +37,32 @@ function Dashboard() {
   }) => {
     return (
       <Link to={`/admin/courseDetail/${id}`}> {/* Update URL to include course ID */}
-        <div className="w-full">
-          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full group">
+          <div className="w-full relative max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="mb-2">
               <img
-                className="object-cover object-center w-full h-56 rounded-t-lg "
+                className="object-cover object-center w-full h-56 rounded-t-lg"
                 src={coverImage}
                 alt="product"
               />
+              <span className="absolute top-2 left-2 bg-yellow-300 text-gray-900 text-xs font-bold px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                {category}
+              </span>
             </div>
             <div className="flex">
-            <img
-              className="w-12 h-12 rounded-full object-cover border-2 border-orange-500"
-              src={avatar}
-              alt="Profile"
-            />
+              <img
+                className="w-12 mx-2 h-12 rounded-full object-cover border-2 border-orange-500"
+                src={avatar}
+                alt="Profile"
+              />
               <div className="ml-4">
-              <h5 className="text-xl  font-semibold tracking-tight text-gray-900 dark:text-white">
-                {course_name}
-              </h5>
-              <p>Lorem ipsum dolor sit amet consectetur....</p>
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {course_name}
+                </h5>
+                <p>Lorem ipsum dolor sit amet consectetur....</p>
               </div>
             </div>
-            <div className="px-2 ">
-            
+            <div className="px-2">
               <div className="relative flex items-center mt-2.5 mb-5">
                 <div className="flex items-center space-x-1 rtl:space-x-reverse">
                   {[...Array(4)].map((_, index) => (
@@ -100,10 +102,11 @@ function Dashboard() {
       </Link>
     );
   };
+  
 
   return (
     <>
-      <div className="grid  h-[92vh] grid-cols-1 m-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 m-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {console.log(courseData)}
         {Array.isArray(courseData) &&
           courseData.map((course, index) => (
