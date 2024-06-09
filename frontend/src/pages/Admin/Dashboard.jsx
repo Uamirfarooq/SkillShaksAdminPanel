@@ -14,6 +14,7 @@ function Dashboard() {
             Authorization: `Bearer ${accessToken}`
           }
         });
+       
         
         setCourseData(response.data.data);
       } catch (error) {
@@ -21,6 +22,7 @@ function Dashboard() {
       }
     };
   useEffect(() => {
+
     fetchCourseData(); 
   },[]);
 

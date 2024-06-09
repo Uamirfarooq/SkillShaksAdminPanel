@@ -156,7 +156,7 @@ const CourseDetail = () => {
       </div>
 
       {isModalOpen && (
-        <CourseModal closeModal={toggleModal} Name="Edit Course" />
+        <CourseModal closeModal={toggleModal} Name="Edit Course" courseId={userid} />
       )}
       {isConfirmModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

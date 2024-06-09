@@ -28,7 +28,7 @@ router.get("/admin/getcourse", auth, getAllCourses);
 
 // Route to update a course by ID
 router.put(
-  "/courses/:id",
+  "/admin/courses/:id",
   auth,
   upload.fields([{ name: "coverImage" }, { name: "avatar" }]),
   updateCourse
