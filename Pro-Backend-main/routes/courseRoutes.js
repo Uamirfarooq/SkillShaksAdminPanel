@@ -21,7 +21,7 @@ router.post(
 );
 
 // Route to get a specific course by ID
-router.get("/admin/getcourse/:id", auth, getCourse);
+router.get("/admin/getcourse/:id", getCourse);
 
 // Route to get all courses
 router.get("/admin/getcourse", auth, getAllCourses);
@@ -35,6 +35,6 @@ router.put(
 );
 
 // Route to delete a course by ID
-router.delete("/courses/:id", auth, deleteCourse);
+router.delete("/delete-course/:id",  deleteCourse);
 
 module.exports = router;

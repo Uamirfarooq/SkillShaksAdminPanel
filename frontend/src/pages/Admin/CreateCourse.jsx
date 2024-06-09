@@ -26,6 +26,8 @@ function CreateCourse() {
     formData.append('coverImage', courseImage);
     formData.append('avatar', authorImage);
 
+    console.log(formData);
+
     try {
       const response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
         headers: {

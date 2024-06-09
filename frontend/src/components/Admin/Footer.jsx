@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
+// import { FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -14,7 +14,7 @@ const Footer = () => {
           <div className="w-full sm:w-1/3 mb-6 sm:mb-0">
             <h3 className="text-xl font-semibold mb-3">Follow Us</h3>
             <div className="flex space-x-6">
-              <a href="#" className="hover:text-indigo-400 transition duration-300">
+              {/* <a href="#" className="hover:text-indigo-400 transition duration-300">
                 <FaFacebookF size={20} />
               </a>
               <a href="#" className="hover:text-indigo-400 transition duration-300">
@@ -22,16 +22,16 @@ const Footer = () => {
               </a>
               <a href="#" className="hover:text-indigo-400 transition duration-300">
                 <FaLinkedinIn size={20} />
-              </a>
+              </a> */}
             </div>
           </div>
           <div className="w-full sm:w-1/3 mb-6 sm:mb-0 text-sm">
             <h3 className="text-xl font-semibold mb-3">Quick Links</h3>
             <ul>
-              <li className="mb-2"><a href="#" className="hover:text-indigo-400 transition duration-300">About Us</a></li>
+              {/* <li className="mb-2"><a href="#" className="hover:text-indigo-400 transition duration-300">About Us</a></li>
               <li className="mb-2"><a href="#" className="hover:text-indigo-400 transition duration-300">Terms of Service</a></li>
               <li className="mb-2"><a href="#" className="hover:text-indigo-400 transition duration-300">Privacy Policy</a></li>
-              <li className="mb-2"><a href="#" className="hover:text-indigo-400 transition duration-300">Help Center</a></li>
+              <li className="mb-2"><a href="#" className="hover:text-indigo-400 transition duration-300">Help Center</a></li> */}
             </ul>
           </div>
         </div>

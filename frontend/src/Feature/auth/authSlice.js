@@ -27,6 +27,7 @@ const authSlice = createSlice({
     accessToken: localStorage.getItem('accessToken') || null,
     refreshToken: localStorage.getItem('refreshToken') || null,
     isAuthenticated: !!localStorage.getItem('accessToken'),
+    courses: [] || NaN,
     status: 'idle',
     error: null,
   },

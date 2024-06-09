@@ -41,6 +41,11 @@ const courseSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 50,
     },
+    price: {
+      type: Number,
+      default: "",
+      trim: true,
+    },
     coverImage: {
       type: String,
       default: "",

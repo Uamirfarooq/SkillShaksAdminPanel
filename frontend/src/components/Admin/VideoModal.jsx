@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 
 const VideoModal = () => {
   const [file, setFile] = useState(null);
@@ -93,20 +94,53 @@ const VideoModal = () => {
     setVideoSrc(null);
   };
 
-  const handleSubmit = (e) => {
+  const getUserIdFromCurrentUrl = () => {
+    try {
+      const urlObj = new URL(window.location.href);
+      const pathSegments = urlObj.pathname.split('/');
+
+      // Check if user ID is in the query parameters
+      let userId = urlObj.searchParams.get('userId');
+
+      // If not in query parameters, assume it's the last segment in the URL path
+      if (!userId) {
+        userId = pathSegments[pathSegments.length - 1];
+      }
+
+      return userId;
+    } catch (error) {
+      console.error("Invalid URL:", error);
+      return null;
+    }
+  };
+  const userid = getUserIdFromCurrentUrl();
+
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form from refreshing the page
     if (title.trim() === "" || !file || !thumbnail) {
       setError("Please fill in all required fields.");
       return;
     }
-    // Handle form submission logic here
-    console.log("Video details submitted:", {
-      title,
-      description,
-      file,
-      thumbnail,
-    });
-    closeModal();
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("video", file);
+    formData.append("thumbnail", thumbnail);
+
+    try {
+      console.log("this is data coming from video model", formData);
+      const response = await axios.post(`http://localhost:5500/api/v1/video/add-video/${userid}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log("Video details submitted:", response.data);
+      closeModal();
+    } catch (error) {
+      console.error("Error uploading video:", error);
+      setError("An error occurred while uploading the video.");
+    }
   };
 
   return (
