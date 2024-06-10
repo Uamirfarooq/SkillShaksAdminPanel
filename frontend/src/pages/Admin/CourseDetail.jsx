@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import VideoList from "../../components/Admin/VideoList";
 import VideoModal from "../../components/Admin/VideoModal";
 import CourseModal from "../../components/Admin/CourseModal";
 import axios from "axios";
-import VideoList from "../../components/Admin/VideoList";
 import { useNavigate } from "react-router-dom";
 
 const CourseDetail = () => {
@@ -77,111 +79,142 @@ const CourseDetail = () => {
     }
   };
 
+  const truncateText = (text, maxLength) => {
+    if (!text) return "";
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substr(0, maxLength) + "...";
+  };
+
   return (
-    <div className="flex">
-      <div className="sidebar h-[92vh] lg:left-0 p-2 w-[21vw] max-[1070px]:w-[29vw] bg-white text-center">
-        <div className="my-4 group w-[20vw] max-[1070px]:w-[25vw] bg-white dark:bg-gray-800 border border-gray-200 relative dark:border-gray-700 rounded-lg shadow-md transform transition duration-500 hover:scale-105">
-
-          <div className="border m-6 border-gray-500 p-2 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 w-full max-w-sm mx-auto">
-            <div className="aspect-w-16 aspect-h-9">
-              <img
-                className="w-full h-full object-cover rounded-t-lg"
-                src={courseData.coverImage}
-                alt="Video Thumbnail"
-              />
+    <>
+      <div className="flex min-w-min h-screen relative bg-gray-100  ">
+        <aside className="group/sidebar flex flex-col shrink-0 max-w-screen-sm transition-all duration-300 ease-in-out m-0 z-50 inset-y-0 left-0 bg-white border-r border-r-dashed border-r-neutral-200 sidenav fixed-start  loopple-fixed-start">
+        <div className="bg-gray-200">
+          <div className="flex items-center justify-between mt-3 px-4 py-5">
+            <div className="flex items-center mr-5">
+              <div className="mr-5">
+                <div className="inline-block shrink-0 cursor-pointer rounded-full">
+                  <img
+                    className="w-[60px] h-[60px] shrink-0 inline-block rounded-full"
+                    src={courseData.avatar}
+                    alt="avatar"
+                  />
+                </div>
+              </div>
+              <div className="mr-2">
+                <span className="dark:hover:text-primary hover:text-primary transition-colors duration-200 ease-in-out text-[1.075rem] font-medium dark:text-neutral-400/90 text-secondary-inverse">
+                  {courseData.author}
+                </span>
+              </div>
             </div>
-          </div>
-
-          <svg
-            onClick={toggleModal}
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-8 hover:opacity-20 hover:bg-slate-50 rounded-2xl absolute z-10 cursor-pointer right-2 top-2 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
-            viewBox="0 0 48 48"
-          >
-            <path d="M38.657 18.536l2.44-2.44c2.534-2.534 2.534-6.658 0-9.193-1.227-1.226-2.858-1.9-4.597-1.9s-3.371.675-4.597 1.901l-2.439 2.439L38.657 18.536zM27.343 11.464L9.274 29.533c-.385.385-.678.86-.848 1.375L5.076 41.029c-.179.538-.038 1.131.363 1.532C5.726 42.847 6.108 43 6.5 43c.158 0 .317-.025.472-.076l10.118-3.351c.517-.17.993-.463 1.378-.849l18.068-18.068L27.343 11.464z"></path>
-          </svg>
-
-          <div className="flex items-center gap-4 p-4">
-            <img
-              className="w-24 h-24 rounded-full object-cover border-2 border-orange-500"
-              src={courseData.avatar}
-              alt="Profile"
-            />
-            <p className="text-gray-700 font-semibold">{courseData.author}</p>
-          </div>
-          <hr />
-          <div className="px-4 text-[0.8rem] flex flex-col items-start py-2">
-            <div className="mb-4">
-              <p className="text-gray-700 font-semibold"><span className="font-bold">Course Name:</span>&nbsp;&nbsp; {courseData.course_name}</p>
-              {/* <p className="text-gray-600"></p> */}
-            </div>
-            <div className="mb-4">
-              <p className="text-gray-700 font-semibold"><span className="font-bold">Course Category:</span>&nbsp;&nbsp; {courseData.category}</p>
-              {/* <p className="text-gray-600"></p> */}
-            </div>
-            <div className="mb-4">
-              <p className="text-gray-700 font-semibold"><span className="font-bold">Course Level:</span>&nbsp;&nbsp; {courseData.level}</p>
-              {/* <p className="text-gray-600"></p> */}
-            </div>
-            <div className="mb-4">
-              <p className="text-gray-700 font-semibold">
-                <span className="font-bold">Course Current Price:</span>&nbsp;&nbsp; {courseData.price}
-              </p>
-              {/* <p className="text-gray-600"></p> */}
-            </div>
-            <div className="mb-4">
-              <p className="text-gray-700 font-semibold">
-                <span className="font-bold">Course Description:</span>&nbsp;&nbsp; {courseData.descstrion}
-              </p>
-              {/* <p className="text-gray-600"></p> */}
-            </div>
-          </div>
-        </div>
-        <button
-          onClick={openConfirmModal}
-          type="button"
-          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-        >
-          Delete
-        </button>
-      </div>
-
-      <div>
-        <div>
-          <VideoModal />
-        </div>
-        <div>
-          <VideoList />
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <CourseModal closeModal={toggleModal} Name="Edit Course" courseId={userid} />
-      )}
-      {isConfirmModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg shadow-lg">
-            <h2 className="text-lg font-semibold">
-              Are you sure you want to delete this course?
-            </h2>
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={closeConfirmModal}
-                className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 mr-2"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={DeleteCourse}
-                className="px-4 py-2 bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+            <span>
+              <MdDelete
+                title="delete"
+                onClick={openConfirmModal}
+                className=" text-red-600 w-6 h-6 cursor-pointer hover:opacity-20 hover:bg-slate-50 rounded-2xl"
               >
                 Delete
-              </button>
+              </MdDelete>
+            </span>
+            <span>
+              <MdEdit
+                title="edit"
+                onClick={toggleModal}
+                className="cursor-pointer w-6 h-6 hover:opacity-20 hover:bg-slate-50 rounded-2xl"
+              />
+            </span>
+          </div>
+          <div className=" px-3 ">
+            <div className="flex flex-col aspect-w-16 aspect-h-9 font-medium">
+              <img
+                className="w-full h-full object-cover object-top max-w-xs"
+                src={courseData.coverImage}
+                alt="description"
+              />
+            </div>
+
+
+
+
+            <div className="p-2 text-[0.9rem] max-w-xs mt-2 ">
+              <div className="mb-4">
+                <p className="text-gray-900 font-semibold leading-tight">
+                  <span className="font-bold">Course Name:</span>&nbsp;&nbsp;
+                  {courseData.course_name}
+                </p>
+              </div>
+              <div className="mb-4">
+                <p className="text-gray-900 font-semibold leading-tight">
+                  <span className="font-bold">Course Category:</span>
+                  &nbsp;&nbsp;
+                  {courseData.category}
+                </p>
+              </div>
+              <div className="mb-4">
+                <p className="text-gray-900 font-semibold leading-tight">
+                  <span className="font-bold">Course Level:</span>&nbsp;&nbsp;
+                  {courseData.level}
+                </p>
+              </div>
+              <div className="mb-4">
+                <p className="text-gray-900 font-semibold leading-tight">
+                  <span className="font-bold">Course Current Price:</span>
+                  &nbsp;&nbsp;
+                  {courseData.price}
+                </p>
+              </div>
+              <div className="mb-4">
+                <p className="text-gray-900 font-semibold leading-tight">
+                  <span className="font-bold">Course Description:</span>
+                  &nbsp;&nbsp;
+                  {truncateText(courseData.course_details, 87)}
+                </p>
+              </div>
             </div>
           </div>
+
         </div>
-      )}
-    </div>
+        </aside>
+        <div className=" flex-grow mt-20 mx-auto border h-4/5  min-w-[640px] max-w-[1080px] overflow-y-scroll scrollbar-hide ">
+          <VideoList />
+        </div>
+        <div className=" absolute top-0 right-0 my-8 mx-4 ">
+          <VideoModal />
+        </div>
+        {isModalOpen && (
+          <CourseModal
+            closeModal={toggleModal}
+            Name="Edit Course"
+            courseId={userid}
+          />
+        )}
+        {isConfirmModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <h2 className="text-lg font-semibold">
+                Are you sure you want to delete this course?
+              </h2>
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={closeConfirmModal}
+                  className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 mr-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={DeleteCourse}
+                  className="px-4 py-2 bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

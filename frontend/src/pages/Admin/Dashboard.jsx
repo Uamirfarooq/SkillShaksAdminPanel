@@ -26,6 +26,16 @@ function Dashboard() {
     fetchCourseData(); 
   },[]);
 
+  const truncateText = (text, maxLength) => {
+    if (!text || typeof text !== 'string') return "";
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substr(0, maxLength) + '...';
+  };
+  
+
+
   const CourseCard = ({
     course_name,
     course_details,
@@ -61,7 +71,7 @@ function Dashboard() {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {course_name}
                 </h5>
-                <p>Lorem ipsum dolor sit amet consectetur....</p>
+                <p className="text-sm text-gray-600">{truncateText(course_details, 87)}</p>
               </div>
             </div>
             <div className="px-2">
@@ -134,3 +144,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+

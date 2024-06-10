@@ -35,6 +35,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('tailwind-scrollbar-hide'),
     require('@tailwindcss/aspect-ratio'),
    function ({ addUtilities }) {
       const newUtilities = {
@@ -46,6 +47,7 @@ module.exports = {
             "&::-webkit-scrollbar" :{
               width: "8px"
             },
+            
             "&::-webkit-scrollbar-track":{
                 background: "white"
               },

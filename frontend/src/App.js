@@ -49,7 +49,7 @@ function App() {
           <Route path="/admin/user/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
         </Routes>
 
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </>
   );
