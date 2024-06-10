@@ -3,22 +3,35 @@ const Video = require("../models/Video");
 const dotenv = require("dotenv");
 const fs = require("fs");
 const { uploadFile, deleteFile } = require("../services/s3Services");
+const createError = require("../utils/error");
 
 dotenv.config();
 
-// Define the addCourse controller function
-const addCourse = async (req, res) => {
-  const { course_name, course_details, author, level, category,price } = req.body;
-  const coverImage = req.files.coverImage[0];
-  const avatar = req.files.avatar[0];
+const addCourse = async (req, res, next) => {
+  const { course_name, course_details, author, level, category, price } =
+    req.body;
+  const coverImage =
+    req.files && req.files.coverImage ? req.files.coverImage[0] : null;
+  const avatar = req.files && req.files.avatar ? req.files.avatar[0] : null;
 
   try {
-    const courseImageUpload = await uploadFile(coverImage, process.env.AWS_BUCKET_IMAGES);
-    const authorImageUpload = await uploadFile(avatar, process.env.AWS_BUCKET_IMAGES);
+    let coverImageUpload, authorImageUpload;
 
-    // Delete the files from local storage
-    fs.unlinkSync(coverImage.path);
-    fs.unlinkSync(avatar.path);
+    if (coverImage) {
+      coverImageUpload = await uploadFile(
+        coverImage,
+        process.env.AWS_BUCKET_IMAGES
+      );
+      fs.unlinkSync(coverImage.path); // Delete the file from local storage
+    }
+
+    if (avatar) {
+      authorImageUpload = await uploadFile(
+        avatar,
+        process.env.AWS_BUCKET_IMAGES
+      );
+      fs.unlinkSync(avatar.path); // Delete the file from local storage
+    }
 
     const newCourse = new Course({
       course_name,
@@ -27,45 +40,46 @@ const addCourse = async (req, res) => {
       level,
       category,
       price,
-      coverImage: courseImageUpload.Location,
-      avatar: authorImageUpload.Location,
+      coverImage: coverImageUpload ? coverImageUpload.Location : null,
+      avatar: authorImageUpload ? authorImageUpload.Location : null,
     });
 
     await newCourse.save();
-    res.status(201).json(newCourse);
+    res.status(201).json({ success: true, data: newCourse });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Error uploading files" });
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((err) => err.message);
+      return res.status(400).json({ success: false, errors });
+    }
+    next(createError(500, "Error uploading files"));
   }
 };
 
-// Controller function for getting one course
-const getCourse = async (req, res) => {
+const getCourse = async (req, res, next) => {
   try {
     const courseId = req.params.id;
     const course = await Course.findById(courseId);
     if (!course) {
-      return res.status(404).json({ error: "Course not found" });
+      return next(createError(404, "Course not found"));
     }
-    res.status(200).json({data:course});
+    res.status(200).json({ success: true, data: course });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Error getting course" });
+    next(createError(500, "Error getting course"));
   }
 };
 
-// Controller function for updating the course
-const updateCourse = async (req, res) => {
+const updateCourse = async (req, res, next) => {
   const { course_name, course_details, author, level, category } = req.body;
   const courseId = req.params.id;
 
-  const coverImage = req.files && req.files.coverImage ? req.files.coverImage[0] : null;
+  const coverImage =
+    req.files && req.files.coverImage ? req.files.coverImage[0] : null;
   const avatar = req.files && req.files.avatar ? req.files.avatar[0] : null;
 
   try {
     let updatedCourse = await Course.findById(courseId);
     if (!updatedCourse) {
-      return res.status(404).json({ error: "Course not found" });
+      return next(createError(404, "Course not found"));
     }
 
     // Update fields only if they are provided
@@ -78,7 +92,10 @@ const updateCourse = async (req, res) => {
     // Handle course image update
     if (coverImage) {
       await deleteFile(updatedCourse.coverImage);
-      const coverImageUpload = await uploadFile(coverImage, process.env.AWS_BUCKET_IMAGES);
+      const coverImageUpload = await uploadFile(
+        coverImage,
+        process.env.AWS_BUCKET_IMAGES
+      );
       updatedCourse.coverImage = coverImageUpload.Location;
       fs.unlinkSync(coverImage.path); // Delete the file from local storage
     }
@@ -86,47 +103,41 @@ const updateCourse = async (req, res) => {
     // Handle author image update
     if (avatar) {
       await deleteFile(updatedCourse.avatar);
-      const avatarUpload = await uploadFile(avatar, process.env.AWS_BUCKET_IMAGES);
+      const avatarUpload = await uploadFile(
+        avatar,
+        process.env.AWS_BUCKET_IMAGES
+      );
       updatedCourse.avatar = avatarUpload.Location;
       fs.unlinkSync(avatar.path); // Delete the file from local storage
     }
 
     await updatedCourse.save();
-    res.status(200).json(updatedCourse);
+    res.status(200).json({ success: true, data: updatedCourse });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Error updating course" });
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((err) => err.message);
+      return res.status(400).json({ success: false, errors });
+    }
+    next(createError(500, "Error updating course"));
   }
 };
 
-// Get All Courses
-const getAllCourses = async (req, res) => {
+const getAllCourses = async (req, res, next) => {
   try {
     const courses = await Course.find();
     res.status(200).json({ success: true, data: courses });
   } catch (error) {
-    console.error('Error fetching courses:', error);
-    res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+    next(createError(500, "Error fetching courses"));
   }
 };
 
-// const getAllCourses = async (req, res) => {
-//   try {
-//     const courses = await Course.find();
-//     res.status(200).json({ data: courses });
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// };
-
-// Controller function for deleting the course
-const deleteCourse = async (req, res) => {
+const deleteCourse = async (req, res, next) => {
   const courseId = req.params.id;
 
   try {
     const courseToDelete = await Course.findById(courseId);
     if (!courseToDelete) {
-      return res.status(404).json({ error: "Course not found" });
+      return next(createError(404, "Course not found"));
     }
 
     // Delete images from AWS S3 before deleting the course
@@ -148,10 +159,12 @@ const deleteCourse = async (req, res) => {
 
     // Finally, delete the course
     await Course.findByIdAndDelete(courseId);
-    res.status(200).json({ message: "Course and associated videos deleted successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Course and associated videos deleted successfully",
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Error deleting course and associated videos" });
+    next(createError(500, "Error deleting course and associated videos"));
   }
 };
 
