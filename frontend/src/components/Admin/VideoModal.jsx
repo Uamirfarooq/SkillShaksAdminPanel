@@ -16,6 +16,8 @@ const VideoModal = () => {
   const [thumbnailSrc, setThumbnailSrc] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
 
+  const token = localStorage.getItem('accessToken');
+
   const handleDragEnter = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -120,7 +122,7 @@ const VideoModal = () => {
   const userid = getUserIdFromCurrentUrl();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form from refreshing the page
+    e.preventDefault(); 
     if (title.trim() === "" || !file || !thumbnail) {
       setError("Please fill in all required fields.");
       return;
@@ -134,8 +136,9 @@ const VideoModal = () => {
 
     try {
       console.log("this is data coming from video model", formData);
-      const response = await axios.post(`http://localhost:5500/api/v1/video/add-video/${userid}`, formData, {
+      const response = await axios.post(`http://localhost:5500/api/v1/auth/admin/course/add-video/${userid}`, formData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -344,3 +347,4 @@ const VideoModal = () => {
 };
 
 export default VideoModal;
+
