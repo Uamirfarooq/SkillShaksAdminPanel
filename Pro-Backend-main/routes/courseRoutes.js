@@ -30,7 +30,9 @@ router.get("/admin/courses", verifyAdmin, getAllCourses);
 // Route to update a course by ID
 router.put(
   "/admin/courses/:id",
+
   verifyAdmin,
+
   upload.fields([{ name: "coverImage" }, { name: "avatar" }]),
   updateCourse
 );

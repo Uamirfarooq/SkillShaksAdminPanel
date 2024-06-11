@@ -1,15 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CourseModal = ({ closeModal, Name }) => {
-
+const CourseModal = ({ closeModal, Name, courseId }) => {
   const [imageDeleted, setImageDeleted] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageUploaded, setImageUploaded] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
-  
-
   const navigate = useNavigate();
   const [authorName, setAuthorName] = useState("");
   const [coursename, setCourseName] = useState("");
@@ -17,64 +14,32 @@ const CourseModal = ({ closeModal, Name }) => {
   const [courseLevel, setCourseLevel] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseImage, setCourseImage] = useState(null);
-
   const [authorImage, setAuthorImage] = useState(null);
 
-  // const handleAddCourse = async (e) => {
-  //   e.preventDefault();
-  //   console.log('sas');
-  //   // Create form data to send to backend
-  //   const formData = new FormData();
-  //   formData.append("course_name", coursename);
-  //   formData.append("course_details", ""); // Add course details if available
-  //   formData.append("author", authorName);
-  //   formData.append("level", courseLevel);
-  //   formData.append("category", courseCategory);
-  //   formData.append("coverImage", courseImage);
-  //   formData.append("avatar", authorImage);
-  //   formData.append("price", coursePrice);
-  //   navigate("/admin/dashboard");
-  //   const token = localStorage.getItem("accessToken");
-  //   console.log("this is token .. ", token);
-  //   try {
-  //     if (!courseImage) {
-  //       console.error("Cover image is required");
-  //       // You can handle this error scenario here, such as displaying a message to the user
-  //       return;
-  //     }
-  //   console.log('sas',formData.data);
+  useEffect(() => {
 
-  //     const response = await fetch(
-  //       "http://localhost:5500/api/v1/admin/addcourse",
-  //       {
-  //         method: "POST",
-  //         body: formData,
-  //         cookies: token
-  //       }
-  //     );
+    if (courseId) {
+      // Fetch course data when component mounts
+      axios.get(`http://localhost:5500/api/v1/admin/getcourse/${courseId}`)
+        .then(response => {
+          const course = response.data.data;
+          setAuthorName(course.author);
+          setCourseName(course.course_name);
+          setCourseCategory(course.category);
+          setCourseLevel(course.level);
+          setCoursePrice(course.price);
+          setSelectedImage(course.coverImage);
+          setSelectedAvatar(course.avatar);
+          setCourseImage(course.coverImage);
+          setAuthorImage(course.avatar);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the course data!", error);
+        });
+    }
+  }, [courseId]);
 
-  //     if (!response.ok) {
-  //       throw new Error("Failed to add course");
-  //     }
-
-  //     console.log("Course added successfully");
-
-  //     navigate("/admin/dashboard");
-  //     // Reset form fields after successful submission
-  //     setAuthorName("");
-  //     setCourseName("");
-  //     setCourseCategory("");
-  //     setCourseLevel("");
-  //     setCourseImage(null);
-  //     setCoursePrice("");
-  //     setAuthorImage(null);
-  //   } catch (error) {
-  //     console.error("Error adding course:", error.message);
-  //     // Handle error scenario here (e.g., show error message to user)
-  //   }
-  // };
-
-  const handleAddCourse = async (e) => {
+  const handleAddOrUpdateCourse = async (e) => {
     e.preventDefault();
   
     // Create form data to send to backend
@@ -88,32 +53,39 @@ const CourseModal = ({ closeModal, Name }) => {
     formData.append("avatar", authorImage);
     formData.append("price", coursePrice);
   
-    // Log FormData entries
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-  
     const accessToken = localStorage.getItem("accessToken");
     console.log("Token:", accessToken);
   
     try {
-      if (!courseImage) {
+      if (!courseImage && !authorImage) {
         console.error("Cover image is required");
         // You can handle this error scenario here, such as displaying a message to the user
         return;
       }
   
-      const response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  console.log(response);
+      let response;
+      if (courseId) {
+        console.log(courseId);
+        response = await axios.put(`http://localhost:5500/api/v1/admin/courses/${courseId}`, formData
+          , {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      } else {
+        response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
+      console.log(response);
   
-      console.log("Course added successfully");
+      console.log(courseId ? "Course updated successfully" : "Course added successfully");
   
-      navigate("/admin/dashboard");
       // Reset form fields after successful submission
       setAuthorName("");
       setCourseName("");
@@ -122,26 +94,18 @@ const CourseModal = ({ closeModal, Name }) => {
       setCourseImage(null);
       setCoursePrice("");
       setAuthorImage(null);
-      closeModal()
-      navigate(0)
+      closeModal();
+      if (!courseId) {
+        navigate("/admin/dashboard");
+      }
     } catch (error) {
-      console.error("Error adding course:", error.message);
-      // Handle error scenario here (e.g., show error message to user)
+      console.error(courseId ? "Error updating course:" : "Error adding course:", error.message);
     }
   };
-  
-
-  // const handleAvatarChange = (event) => {
-  //   if (event.target.files && event.target.files[0]) {
-  //     setSelectedAvatar(URL.createObjectURL(event.target.files[0]));
-  //   }
-  // };
 
   const handleAvatarChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      // Update selectedAvatar state
       setSelectedAvatar(URL.createObjectURL(event.target.files[0]));
-      // Update authorImage state
       setAuthorImage(event.target.files[0]);
     }
   };
@@ -158,21 +122,11 @@ const CourseModal = ({ closeModal, Name }) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      // setSelectedImage(reader.result);
       setSelectedImage(URL.createObjectURL(event.target.files[0]));
       setCourseImage(event.target.files[0]);
       setImageUploaded(true);
     };
   };
-
-  // const handleUploadImage = (event) => {
-  //   if (event.target.files && event.target.files[0]) {
-  //     // Update selectedImage state
-  //     setSelectedImage(URL.createObjectURL(event.target.files[0]));
-  //     // Update courseImage state
-  //     setCourseImage(event.target.files[0]);
-  //   }
-  // };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden flex justify-center items-center w-full h-full bg-black bg-opacity-50">
@@ -182,7 +136,7 @@ const CourseModal = ({ closeModal, Name }) => {
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              {Name}
+              {courseId ? "Update Course" : "Add Course"}
             </h3>
             <button
               type="button"
@@ -207,7 +161,7 @@ const CourseModal = ({ closeModal, Name }) => {
             </button>
           </div>
           {/* Modal body */}
-          <form onSubmit={handleAddCourse} className="p-4 md:p-5">
+          <form onSubmit={handleAddOrUpdateCourse} className="p-4 md:p-5">
             <div className="grid gap-4 mb-4 md:grid-cols-2">
               {/* Name */}
               <div className="">
@@ -456,10 +410,9 @@ const CourseModal = ({ closeModal, Name }) => {
               <div className="col-span-2  flex justify-end border-t rounded-t dark:border-gray-600">
                 <button
                   type="submit"
-                  // onClick={handleSave}
                   className="px-4 py-2 mt-8 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
                 >
-                  Save
+                  {courseId ? "Update Course" : "Add Course"}
                 </button>
               </div>
             </div>
