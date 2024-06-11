@@ -236,8 +236,14 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
                       <MdDelete onClick={handleDeleteImage} className="w-6 h-6 text-red-500 cursor-pointer hover:bg-slate-500 rounded-full " />
                     )}
                   </div>
+
+
+
+
+
+                  
                   <div className="absolute bottom-3 left-0 right-0 flex justify-center mt-2">
-                    {!imageUploaded && (
+                    {!imageUploaded && !courseImage && (
                       <div className="rounded-md border border-indigo-500 bg-gray-50 p-2 shadow-md ">
                         <label
                           htmlFor="upload"
