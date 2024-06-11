@@ -189,7 +189,7 @@ const CourseDetail = () => {
             </div>
           </div>
         </aside>
-        <div className=" flex-grow mt-20 mx-auto border h-4/5  min-w-[640px] max-w-[1080px] overflow-y-scroll scrollbar-hide ">
+        <div className=" flex-grow mt-20 mx-auto  h-4/5  min-w-[640px] max-w-[1080px] overflow-y-scroll scrollbar-hide ">
           <VideoList />
         </div>
         <div className=" absolute top-0 right-0 my-8 mx-4 ">

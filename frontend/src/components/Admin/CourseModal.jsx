@@ -250,12 +250,6 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
                     )}
                   </div>
 
-
-
-
-
-
-
                   <div className="absolute bottom-3 left-0 right-0 flex justify-center mt-2">
                     {!imageUploaded && !courseImage && (
                       <div className="rounded-md border border-indigo-500 bg-gray-50 p-2 shadow-md ">
