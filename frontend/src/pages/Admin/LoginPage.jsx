@@ -21,7 +21,7 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axiosInstance.post('/admin/adminlogin', {
+      const response = await axiosInstance.post('/auth/admin/login', {
         email,
         password
       });

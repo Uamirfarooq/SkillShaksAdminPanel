@@ -22,11 +22,26 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
   const [courseDescription, setCourseDescription] = useState(""); // New state for course description
   
   const navigate = useNavigate();
+  const token = localStorage.getItem('accessToken'); // Retrieve the token from local storage
+  
   useEffect(() => {
     if (courseId) {
-      // Fetch course data when component mounts
-      axios.get(`http://localhost:5500/api/v1/admin/getcourse/${courseId}`)
-        .then(response => {
+      const fetchCourseData = async () => {
+        try {
+
+          if (!token) {
+            throw new Error('No token found');
+          }
+
+          const response = await axios.get(
+            `http://localhost:5500/api/v1/auth/admin/courses/${courseId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Include the token in the headers
+              },
+            }
+          );
+
           const course = response.data.data;
           setAuthorName(course.author);
           setCourseName(course.course_name);
@@ -38,10 +53,12 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
           setCourseImage(course.coverImage);
           setAuthorImage(course.avatar);
           setCourseDescription(course.course_details); // Set course description
-        })
-        .catch(error => {
-          console.error("There was an error fetching the course data!", error);
-        });
+        } catch (error) {
+          console.error('There was an error fetching the course data!', error);
+        }
+      };
+
+      fetchCourseData();
     }
   }, [courseId]);
 
@@ -59,8 +76,8 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
     formData.append("avatar", authorImage);
     formData.append("price", coursePrice);
   
-    const accessToken = localStorage.getItem("accessToken");
-    console.log("Token:", accessToken);
+   
+    console.log("Token:", token);
   
     try {
       if (!courseImage) {
@@ -81,18 +98,18 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
       let response;
       if (courseId) {
         console.log(courseId);
-        response = await axios.put(`http://localhost:5500/api/v1/admin/courses/${courseId}`, formData
+        response = await axios.put(`http://localhost:5500/api/v1/auth/admin/courses/${courseId}`, formData
           , {
           headers: {
-            'Authorization': `Bearer ${accessToken}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         }
       );
       } else {
-        response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
+        response = await axios.post('http://localhost:5500/api/v1/auth/admin/add-course', formData, {
           headers: {
-            'Authorization': `Bearer ${accessToken}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         });

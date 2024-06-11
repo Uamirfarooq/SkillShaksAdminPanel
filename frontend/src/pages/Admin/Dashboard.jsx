@@ -12,7 +12,7 @@ function Dashboard() {
 
   const fetchCourseData = async () => {
     try {
-      const response = await axios.get("http://localhost:5500/api/v1/admin/getcourse", {
+      const response = await axios.get("http://localhost:5500/api/v1/auth/admin/courses", {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -143,8 +143,8 @@ function Dashboard() {
       <div className="p-4 w-full flex justify-end items-center">
         <div className="max-w-lg mx-auto">
           <label
-            for="default-search"
-            class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
           >
             Search
           </label>
@@ -159,9 +159,9 @@ function Dashboard() {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
