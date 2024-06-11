@@ -6,7 +6,7 @@ const VideoList = () => {
   const videos = [
     {
       thumbnail: path,
-      name: "aqi",
+      name: "aqi ssssssssssssssss",
       title: "Video Title",
       visibility: "Draft",
       date: "2024-06-06",

@@ -5,7 +5,7 @@ import { RxAvatar } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
-import AlphabeticInput from '../../components/AlphabeticInput'; // Adjust the import path as necessary
+import AlphabeticInput from "../../components/AlphabeticInput"; // Adjust the import path as necessary
 
 const CourseModal = ({ closeModal, Name, courseId }) => {
   const [imageDeleted, setImageDeleted] = useState(false);
@@ -20,13 +20,27 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
   const [courseImage, setCourseImage] = useState(null);
   const [authorImage, setAuthorImage] = useState(null);
   const [courseDescription, setCourseDescription] = useState(""); // New state for course description
-  
+
   const navigate = useNavigate();
+  const token = localStorage.getItem("accessToken"); // Retrieve the token from local storage
+
   useEffect(() => {
     if (courseId) {
-      // Fetch course data when component mounts
-      axios.get(`http://localhost:5500/api/v1/admin/getcourse/${courseId}`)
-        .then(response => {
+      const fetchCourseData = async () => {
+        try {
+          if (!token) {
+            throw new Error("No token found");
+          }
+
+          const response = await axios.get(
+            `http://localhost:5500/api/v1/auth/admin/courses/${courseId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Include the token in the headers
+              },
+            }
+          );
+
           const course = response.data.data;
           setAuthorName(course.author);
           setCourseName(course.course_name);
@@ -38,16 +52,18 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
           setCourseImage(course.coverImage);
           setAuthorImage(course.avatar);
           setCourseDescription(course.course_details); // Set course description
-        })
-        .catch(error => {
+        } catch (error) {
           console.error("There was an error fetching the course data!", error);
-        });
+        }
+      };
+
+      fetchCourseData();
     }
   }, [courseId]);
 
   const handleAddOrUpdateCourse = async (e) => {
     e.preventDefault();
-  
+
     // Create form data to send to backend
     const formData = new FormData();
     formData.append("course_name", coursename);
@@ -58,10 +74,9 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
     formData.append("coverImage", courseImage);
     formData.append("avatar", authorImage);
     formData.append("price", coursePrice);
-  
-    const accessToken = localStorage.getItem("accessToken");
-    console.log("Token:", accessToken);
-  
+
+    console.log("Token:", token);
+
     try {
       if (!courseImage) {
         console.error("Cover image is required");
@@ -73,34 +88,42 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
         // You can handle this error scenario here, such as displaying a message to the user
         return;
       }
-      if(coursePrice.length === 0) {
-        console.error('Enter price');
+      if (coursePrice.length === 0) {
+        console.error("Enter price");
         return;
       }
-  
+
       let response;
       if (courseId) {
         console.log(courseId);
-        response = await axios.put(`http://localhost:5500/api/v1/admin/courses/${courseId}`, formData
-          , {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+        response = await axios.put(
+          `http://localhost:5500/api/v1/auth/admin/courses/${courseId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
       } else {
-        response = await axios.post('http://localhost:5500/api/v1/admin/addcourse', formData, {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        response = await axios.post(
+          "http://localhost:5500/api/v1/auth/admin/add-course",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
       }
       console.log(response);
-  
-      console.log(courseId ? "Course updated successfully" : "Course added successfully");
-  
+
+      console.log(
+        courseId ? "Course updated successfully" : "Course added successfully"
+      );
+
       // Reset form fields after successful submission
       setAuthorName("");
       setCourseName("");
@@ -115,7 +138,10 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
         navigate("/admin/dashboard");
       }
     } catch (error) {
-      console.error(courseId ? "Error updating course:" : "Error adding course:", error.message);
+      console.error(
+        courseId ? "Error updating course:" : "Error adding course:",
+        error.message
+      );
     }
   };
 
@@ -129,6 +155,7 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
   const handleDeleteImage = () => {
     setImageDeleted(true);
     setSelectedImage("");
+    setCourseImage(null);
     setImageUploaded(false);
   };
 
@@ -216,17 +243,27 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
                   )}
                   <div className="absolute top-0 right-0 mt-2 mr-2">
                     {!imageDeleted && selectedImage && (
-                      <MdDelete onClick={handleDeleteImage} className="w-6 h-6 text-red-500 cursor-pointer hover:bg-slate-500 rounded-full " />
+                      <MdDelete
+                        onClick={handleDeleteImage}
+                        className="w-6 h-6 text-red-500 cursor-pointer hover:bg-slate-500 rounded-full "
+                      />
                     )}
                   </div>
+
+
+
+
+
+
+
                   <div className="absolute bottom-3 left-0 right-0 flex justify-center mt-2">
-                    {!imageUploaded && (
+                    {!imageUploaded && !courseImage && (
                       <div className="rounded-md border border-indigo-500 bg-gray-50 p-2 shadow-md ">
                         <label
                           htmlFor="upload"
                           className="flex flex-col items-center gap-2 cursor-pointer"
                         >
-                          <LuImagePlus className="h-6 w-6 fill-white stroke-indigo-500"/>
+                          <LuImagePlus className="h-6 w-6 fill-white stroke-indigo-500" />
                         </label>
                         <input
                           id="upload"
@@ -243,7 +280,7 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
                   Course Image
                 </h1>
               </div>
-              
+
               {/* Category */}
               <div>
                 <div className="flex flex-col">
@@ -305,7 +342,7 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
                   />
                 </div>
               </div>
-              
+
               {/* Description */}
               <div className="col-span-1 mt-32">
                 <label

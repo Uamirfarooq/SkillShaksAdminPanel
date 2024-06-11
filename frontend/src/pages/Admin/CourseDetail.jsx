@@ -13,6 +13,8 @@ const CourseDetail = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [courseData, setCourseData] = useState([]);
 
+  const token = localStorage.getItem('accessToken');
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -49,25 +51,39 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
+         // Retrieve the token from local storage
+
+        if (!token) {
+          throw new Error('No token found');
+        }
+
         const response = await axios.get(
-          `http://localhost:5500/api/v1/admin/getcourse/${userid}`,
-          {}
+          `http://localhost:5500/api/v1/auth/admin/courses/${userid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the headers
+            },
+          }
         );
 
-        console.log("this is data comuibg from data base", response.data.data);
+        console.log('This is data coming from the database', response.data.data);
         setCourseData(response.data.data);
       } catch (error) {
-        console.error("Error fetching course data:", error);
+        console.error('Error fetching course data:', error);
       }
     };
 
     fetchCourseData();
-  }, []);
-
+  }, [userid]);
   const DeleteCourse = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:5500/api/v1/delete-course/${userid}`
+        `http://localhost:5500/api/v1/auth/admin/courses/${userid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the headers
+          },
+        }
       );
       console.log("Course deleted successfully", response);
 
@@ -97,7 +113,7 @@ const CourseDetail = () => {
                 <div className="mr-5">
                   <div className="inline-block shrink-0 cursor-pointer rounded-full">
                     <img
-                      className="w-[60px] h-[60px] shrink-0 inline-block rounded-full"
+                      className="w-[60px] h-[60px] object-cover shrink-0 inline-block rounded-full"
                       src={courseData.avatar}
                       alt="avatar"
                     />
