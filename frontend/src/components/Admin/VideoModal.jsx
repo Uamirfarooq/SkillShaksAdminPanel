@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { IoMdClose } from "react-icons/io";
+import { IoCloudUploadOutline, IoAddCircleOutline } from "react-icons/io5";
+import { LuImagePlus } from "react-icons/lu";
+
 
 const VideoModal = () => {
   const [file, setFile] = useState(null);
@@ -147,7 +151,7 @@ const VideoModal = () => {
     <>
       <button
         onClick={toggleModal}
-        className="inline-block text-white m-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="inline-block text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         type="button"
       >
         Add Video
@@ -175,21 +179,7 @@ const VideoModal = () => {
                   onClick={closeModal}
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
+               <IoMdClose className="w-7 h-7 text-black"/>
                   <span className="sr-only">Close modal</span>
                 </button>
               </div>
@@ -204,20 +194,7 @@ const VideoModal = () => {
                     className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
                   >
                     <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
+                    <IoCloudUploadOutline className="w-6 h-6 text-gray-600"/>
                       <span className="font-medium text-gray-600">
                         Drop Video, or{" "}
                         <span className="text-blue-600 underline">browse</span>
@@ -263,21 +240,7 @@ const VideoModal = () => {
                   onClick={closeModal}
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
+                  <IoMdClose className="w-7 h-7 text-black"/>
                   <span className="sr-only">Close modal</span>
                 </button>
               </div>
@@ -323,21 +286,7 @@ const VideoModal = () => {
                     <div className="rounded-md border border-indigo-500 bg-gray-50 shadow-md w-36">
                       {thumbnailSrc ? (
                         <div className="relative">
-                          <svg
-                            onClick={handleImageChange}
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 cursor-pointer top-0 right-0 absolute z-10"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M13 10V3L4 14h7v7l9-11h-7z"
-                            />
-                          </svg>
+                          <IoAddCircleOutline onClick={handleImageChange} className="h-6 w-6 cursor-pointer top-0 right-0 absolute z-10" />
                           <div>
                             <img
                               src={thumbnailSrc}
@@ -349,23 +298,11 @@ const VideoModal = () => {
                       ) : (
                         <label
                           htmlFor="upload"
-                          className="flex flex-col items-center gap-2 cursor-pointer"
+                          className="flex flex-col items-center cursor-pointer"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-10 w-10 fill-white stroke-indigo-500"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
+                          <LuImagePlus   className="h-10 w-10 fill-white stroke-indigo-500"/>
                           <span className="text-gray-600 font-medium text-center">
-                            Upload Thumbnail
+                             Thumbnail
                           </span>
                         </label>
                       )}

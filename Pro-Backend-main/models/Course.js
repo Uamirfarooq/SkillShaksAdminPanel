@@ -10,9 +10,9 @@ const courseSchema = new mongoose.Schema(
     },
     course_details: {
       type: String,
-      // required: true,
-      // trim: true,
-      // minlength: 10,
+      required: true,
+      trim: true,
+      minlength: 10,
     },
     author: {
       type: String,
