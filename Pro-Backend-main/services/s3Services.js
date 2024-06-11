@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const fs = require("fs");
 dotenv.config();
 const s3 = require("../config/awsConfig");
@@ -19,7 +19,6 @@ const uploadFile = (file, bucketName) => {
   return s3.upload(params).promise();
 };
 
-
 // Delete File Function
 
 const deleteFile = async (fileUrl) => {
@@ -30,7 +29,7 @@ const deleteFile = async (fileUrl) => {
   try {
     // Extract the bucket name and key from the file URL
     const url = new URL(fileUrl);
-    const bucketName = url.hostname.split('.')[0]; // Extract the bucket name
+    const bucketName = url.hostname.split(".")[0]; // Extract the bucket name
     const key = url.pathname.substring(1); // Remove the leading '/'
 
     const params = {
@@ -39,9 +38,9 @@ const deleteFile = async (fileUrl) => {
     };
 
     await s3.deleteObject(params).promise();
-    console.log(`File ${key} deleted successfully from AWS S3`);
+    // console.log(`File ${key} deleted successfully from AWS S3`);
   } catch (error) {
-    console.log(`Error deleting file from AWS S3: ${error.message}`);
+    // console.log(`Error deleting file from AWS S3: ${error.message}`);
     throw error;
   }
 };

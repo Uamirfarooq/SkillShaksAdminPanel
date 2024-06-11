@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Admin = require("../models/Admin")
 const dotenv = require("dotenv");
 dotenv.config();
 // const connection = mongoose.connection;
@@ -11,10 +12,15 @@ const connectDB = async () => {
     console.log("Error connecting database");
     console.log(error);
   }
-};
+
+  // // const db = mongoose.connection
+ 
+  // const db = mongoose.connection.db;
+  // await db.collection("admins").dropIndex("username_1");
+  // console.log("Username index dropped");
 
 
-
+}
 // connection.once('open', async () => {
 //   try {
 //     await connection.collection('courses').dropIndex('course_name_1');
