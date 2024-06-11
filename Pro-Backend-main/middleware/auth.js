@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const auth = (req, res, next) => {
+const verifyAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const tokenFromCookie = req.cookies.accessToken;
 
@@ -30,4 +30,4 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = verifyAdmin;
