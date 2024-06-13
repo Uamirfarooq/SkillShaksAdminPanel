@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+
 import { Navigate } from 'react-router-dom';
+import axiosInstance from '../../utils/axiosInstance';
 
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
@@ -12,7 +13,7 @@ const ForgotPassword = () => {
 
   const handleSendVerification = async () => {
     try {
-      await axios.post('http://localhost:5500/api/v1/admin/send-verification', { contact });
+      await axiosInstance.post('/admin/send-verification', { contact });
       setStep(2);
     } catch (error) {
       console.error('Error sending verification code', error);
@@ -21,7 +22,7 @@ const ForgotPassword = () => {
 
   const handleVerifyCode = async () => {
     try {
-      await axios.post('http://localhost:5500/api/v1/admin/verify-code', { code: verificationCode });
+      await axiosInstance.post('/admin/verify-code', { code: verificationCode });
       setStep(3);
     } catch (error) {
       console.error('Error verifying code', error);
@@ -34,7 +35,7 @@ const ForgotPassword = () => {
       return;
     }
     try {
-      await axios.post('http://localhost:5500/api/v1/admin/reset-password', { newPassword });
+      await axiosInstance.post('/admin/reset-password', { newPassword });
       alert('Password reset successful');
       Navigate("/admin/register")
     } catch (error) {

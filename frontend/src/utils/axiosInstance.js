@@ -46,7 +46,8 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem('refreshToken');
         const dispatch = useDispatch();
         dispatch(logout());
-        window.location.href = '/login'; // or use navigate if in a component
+        alert("You have to login Again")
+        window.location.href = '/'; // or use navigate if in a component
       }
     }
     return Promise.reject(error);
