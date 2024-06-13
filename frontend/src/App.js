@@ -46,7 +46,8 @@ function App() {
           {/* Update the route for CourseDetail to accept course ID as a parameter */}
           <Route path="/admin/courseDetail/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
           <Route path="/admin/manage-user" element={<ProtectedRoute><UserListPage /></ProtectedRoute>} />
-          <Route path="/admin/user/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
+          {/* <Route path="/admin/user/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} /> */}
+          <Route path="/admin/user" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
         </Routes>
 
         <Footer />
