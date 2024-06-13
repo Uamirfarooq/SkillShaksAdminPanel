@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import VideoModal from "./VideoModal";
+
 
 const VideoList = () => {
   const [videos, setVideos] = useState([]);

@@ -4,8 +4,10 @@ import { MdDelete } from "react-icons/md";
 import VideoList from "../../components/Admin/VideoList";
 import VideoModal from "../../components/Admin/VideoModal";
 import CourseModal from "../../components/Admin/CourseModal";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { truncateText } from "../../utils/truncateText";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const CourseDetail = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [courseData, setCourseData] = useState([]);
 
-  const token = localStorage.getItem('accessToken');
+
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -53,17 +55,9 @@ const CourseDetail = () => {
       try {
          // Retrieve the token from local storage
 
-        if (!token) {
-          throw new Error('No token found');
-        }
 
-        const response = await axios.get(
-          `http://localhost:5500/api/v1/auth/admin/courses/${userid}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Include the token in the headers
-            },
-          }
+        const response = await axiosInstance.get(
+          `/auth/admin/courses/${userid}`
         );
 
         console.log('This is data coming from the database', response.data.data);
@@ -77,13 +71,8 @@ const CourseDetail = () => {
   }, [userid]);
   const DeleteCourse = async () => {
     try {
-      const response = await axios.delete(
-        `http://localhost:5500/api/v1/auth/admin/courses/${userid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the headers
-          },
-        }
+      const response = await  axiosInstance.delete(
+        `/auth/admin/courses/${userid}`
       );
       console.log("Course deleted successfully", response);
 
@@ -95,13 +84,7 @@ const CourseDetail = () => {
     }
   };
 
-  const truncateText = (text, maxLength) => {
-    if (!text) return "";
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return text.substr(0, maxLength) + "...";
-  };
+
 
   return (
     <>
@@ -182,7 +165,7 @@ const CourseDetail = () => {
                   <p className="text-gray-900 font-semibold leading-tight">
                     <span className="font-bold">Course Description:</span>
                     &nbsp;&nbsp;
-                    {truncateText(courseData.course_details, 87)}
+                    {truncateText(courseData.course_details, 100)}
                   </p>
                 </div>
               </div>

@@ -25,10 +25,20 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-        const response = await axios.post('http://localhost:5500/api/v1/admin/refresh-token', { token: refreshToken });
+        const response = await axios.post('http://localhost:5500/api/v1/auth/admin/refresh-token', 
+          { token: refreshToken },
+          {
+            headers: {
+              'Authorization': `Bearer ${refreshToken}`
+            }
+          }
+        );
         const newAccessToken = response.data.accessToken;
+
+        console.log("this is new tokenn",newAccessToken);
         localStorage.setItem('accessToken', JSON.stringify(newAccessToken));
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+        alert("Your Token Has being refreshes")
         return axiosInstance(originalRequest);
       } catch (err) {
         // Refresh token is invalid or expired
