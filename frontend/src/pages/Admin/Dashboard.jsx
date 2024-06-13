@@ -26,13 +26,6 @@ function Dashboard() {
     fetchCourseData();
   }, []);
 
-  // const truncateText = (text, maxLength) => {
-  //   if (!text || typeof text !== 'string') return "";
-  //   if (text.length <= maxLength) {
-  //     return text;
-  //   }
-  //   return text.substr(0, maxLength) + '...';
-  // };
 
   const filteredCourseData = courseData.filter(course => {
     const matchesSearchQuery = course.course_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
