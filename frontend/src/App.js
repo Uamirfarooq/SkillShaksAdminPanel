@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateCourse from "../src/Pages/Admin/CreateCourse.jsx";
+
 import Dashboard from "../src/Pages/Admin/Dashboard.jsx";
 import CourseDetail from "../src/Pages/Admin/CourseDetail.jsx";
 
@@ -42,7 +42,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/admin/addCourse" element={<ProtectedRoute><CreateCourse /></ProtectedRoute>} />
+          
           {/* Update the route for CourseDetail to accept course ID as a parameter */}
           <Route path="/admin/courseDetail/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
           <Route path="/admin/manage-user" element={<ProtectedRoute><UserListPage /></ProtectedRoute>} />

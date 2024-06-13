@@ -1,21 +1,20 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import AddIcon from "../../components/Admin/AddIcon";
 import FilterComponent from "../../components/FilterItems";
+import axiosInstance from "../../utils/axiosInstance";
+import { truncateText } from "../../utils/truncateText";
 
 function Dashboard() {
   const [courseData, setCourseData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({});
-  const accessToken = localStorage.getItem('accessToken');
+
 
   const fetchCourseData = async () => {
     try {
-      const response = await axios.get("http://localhost:5500/api/v1/auth/admin/courses", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+      const response = await axiosInstance.get("/auth/admin/courses", {
       });
       setCourseData(response.data.data);
     } catch (error) {
@@ -27,13 +26,13 @@ function Dashboard() {
     fetchCourseData();
   }, []);
 
-  const truncateText = (text, maxLength) => {
-    if (!text || typeof text !== 'string') return "";
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return text.substr(0, maxLength) + '...';
-  };
+  // const truncateText = (text, maxLength) => {
+  //   if (!text || typeof text !== 'string') return "";
+  //   if (text.length <= maxLength) {
+  //     return text;
+  //   }
+  //   return text.substr(0, maxLength) + '...';
+  // };
 
   const filteredCourseData = courseData.filter(course => {
     const matchesSearchQuery = course.course_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,7 +92,7 @@ function Dashboard() {
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {course_name}
                   </h5>
-                  <p className="text-sm text-gray-600">{truncateText(course_details, 87)}</p>
+                  <p className="text-sm text-gray-600">{truncateText(course_details, 50)}</p>
                 </div>
               </div>
               <div className="px-2">

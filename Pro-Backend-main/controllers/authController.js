@@ -88,7 +88,16 @@ const login = async (req, res, next) => {
 };
 
 const refresh = (req, res, next) => {
-  const refreshToken = req.cookies.refreshToken;
+  const authHeader = req.headers.authorization;
+  const tokenFromCookie = req.cookies.accessToken;
+
+  let refreshToken;
+
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    refreshToken = authHeader.split(" ")[1];
+  } else if (tokenFromCookie) {
+    refreshToken = tokenFromCookie;
+  }
   if (!refreshToken) {
     return next(createError(401, "No token, authorization denied"));
   }
@@ -98,14 +107,14 @@ const refresh = (req, res, next) => {
     const accessToken = jwt.sign(
       { adminId: decoded.adminId },
       process.env.JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1d" }
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
     });
-    res.json({ message: "Access token refreshed" });
+    res.json({ message: "Access token refreshed", accessToken });
   } catch (error) {
     next(createError(401, "Token is not valid"));
   }

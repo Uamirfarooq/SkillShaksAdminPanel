@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
@@ -6,6 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
 import AlphabeticInput from "../../components/AlphabeticInput"; // Adjust the import path as necessary
+import axiosInstance from "../../utils/axiosInstance";
 
 const CourseModal = ({ closeModal, Name, courseId }) => {
   const [imageDeleted, setImageDeleted] = useState(false);
@@ -22,24 +23,15 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
   const [courseDescription, setCourseDescription] = useState(""); // New state for course description
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("accessToken"); // Retrieve the token from local storage
+
 
   useEffect(() => {
     if (courseId) {
       const fetchCourseData = async () => {
         try {
-          if (!token) {
-            throw new Error("No token found");
-          }
-
-          const response = await axios.get(
-            `http://localhost:5500/api/v1/auth/admin/courses/${courseId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the headers
-              },
-            }
-          );
+        
+          const response = await axiosInstance.get(
+            `/auth/admin/courses/${courseId}`);
 
           const course = response.data.data;
           setAuthorName(course.author);
@@ -75,7 +67,7 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
     formData.append("avatar", authorImage);
     formData.append("price", coursePrice);
 
-    console.log("Token:", token);
+
 
     try {
       if (!courseImage) {
@@ -96,27 +88,13 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
       let response;
       if (courseId) {
         console.log(courseId);
-        response = await axios.put(
-          `http://localhost:5500/api/v1/auth/admin/courses/${courseId}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        response = await axiosInstance.put(
+          `/auth/admin/courses/${courseId}`,
+          formData);
       } else {
-        response = await axios.post(
-          "http://localhost:5500/api/v1/auth/admin/add-course",
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        response = await axiosInstance.post(
+          "/auth/admin/add-course",
+          formData);
       }
       console.log(response);
 
