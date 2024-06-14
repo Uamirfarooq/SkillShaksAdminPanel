@@ -24,34 +24,35 @@ const ProfileCard = () => {
 
   return (
     <div className='flex m-2 gap-2'>
-      <div className="h-screen w-1/2 snap-y snap-mandatory overflow-y-scroll rounded-lg scrollbar-hide">
-        {teachers.map((teacher, index) => (
-          <div className="flex p-2 snap-center bg-white" key={index} onClick={() => handleCardClick(teacher)}>
-            <div className="h-64 w-full flex flex-col items-center justify-center bg-white rounded-lg shadow-md">
-              <div className="w-24 h-24 rounded-full bg-cover bg-center mb-2" style={{ backgroundImage: `url(${teacher.profileImg})` }}></div>
-              <div>
-                <span>{teacher.name}</span>
-                <p className="text-gray-500">{teacher.job}</p>
-              </div>
-            </div>
+  <div className="h-screen w-1/2 snap-y snap-mandatory overflow-y-scroll rounded-lg scrollbar-hide">
+    {teachers.map((teacher, index) => (
+      <div className="flex p-2 snap-center bg-white dark:bg-gray-800 dark:text-white" key={index} onClick={() => handleCardClick(teacher)}>
+        <div className="h-64 w-full flex flex-col items-center justify-center bg-white dark:bg-gray-700 rounded-lg shadow-md dark:shadow-lg">
+          <div className="w-24 h-24 rounded-full bg-cover bg-center mb-2" style={{ backgroundImage: `url(${teacher.profileImg})` }}></div>
+          <div>
+            <span>{teacher.name}</span>
+            <p className="text-gray-500 dark:text-gray-400">{teacher.job}</p>
           </div>
-        ))}
+        </div>
       </div>
+    ))}
+  </div>
 
-      <div className="h-screen w-1/2 snap-y snap-mandatory overflow-y-scroll rounded-lg scrollbar-hide">
-        {students.map((student, index) => (
-          <div className="flex p-2 snap-center bg-white" key={index} onClick={() => handleCardClick(student)}>
-            <div className="h-64 w-full flex flex-col items-center justify-center bg-white rounded-lg shadow-md">
-              <div className="w-24 h-24 rounded-full bg-cover bg-center mb-2" style={{ backgroundImage: `url(${student.profileImg})` }}></div>
-              <div>
-                <span>{student.name}</span>
-                <p className="text-gray-500">{student.job}</p>
-              </div>
-            </div>
+  <div className="h-screen w-1/2 snap-y snap-mandatory overflow-y-scroll rounded-lg scrollbar-hide">
+    {students.map((student, index) => (
+      <div className="flex p-2 snap-center bg-white dark:bg-gray-800 dark:text-white" key={index} onClick={() => handleCardClick(student)}>
+        <div className="h-64 w-full flex flex-col items-center justify-center bg-white dark:bg-gray-700 rounded-lg shadow-md dark:shadow-lg">
+          <div className="w-24 h-24 rounded-full bg-cover bg-center mb-2" style={{ backgroundImage: `url(${student.profileImg})` }}></div>
+          <div>
+            <span>{student.name}</span>
+            <p className="text-gray-500 dark:text-gray-400">{student.job}</p>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
   );
 };
 

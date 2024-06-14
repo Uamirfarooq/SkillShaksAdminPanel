@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
 // Thunk for refreshing the token
 export const refreshToken = createAsyncThunk('auth/refreshToken', async (_, { getState, rejectWithValue }) => {
@@ -63,10 +64,15 @@ const authSlice = createSlice({
   },
 });
 
-export const selectCurrentUser = (state) => ({
-  user: state.auth.user,
-  isAuthenticated: state.auth.isAuthenticated,
-});
+const selectAuthState = (state) => state.auth;
+
+export const selectCurrentUser = createSelector(
+  [selectAuthState],
+  (auth) => ({
+    user: auth.user,
+    isAuthenticated: auth.isAuthenticated,
+  })
+);
 
 export const { loginSuccess, logout } = authSlice.actions;
 export default authSlice.reducer;

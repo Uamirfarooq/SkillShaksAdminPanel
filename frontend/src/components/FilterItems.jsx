@@ -44,6 +44,7 @@ const FilterComponent = ({ onFilterChange }) => {
   return (
     <div className="relative">
       <GoFilter className="w-10 h-10 -ml-28 cursor-pointer select-none" onClick={toggleDropdown} />
+      
       {dropdownVisible && (
         <div className="absolute right-0 mt-2 py-2 w-96 bg-white rounded-md shadow-lg z-10">
           <div className="grid grid-cols-2 gap-x-4 px-4">
@@ -81,6 +82,7 @@ const FilterComponent = ({ onFilterChange }) => {
             >
               Reset Filters
             </button>
+            
           </div>
         </div>
       )}
