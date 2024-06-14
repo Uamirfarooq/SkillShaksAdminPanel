@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
   }, [dispatch, accessToken, refresh]);
 
   if (!isAuthenticated) {
-    return <Navigate to="/admin/login" />;
+    return <Navigate to= "/admin/login" />;
   }
 
   return children;

@@ -135,14 +135,19 @@ const VideoModal = () => {
     formData.append("thumbnail", thumbnail);
 
     try {
-      console.log("this is data coming from video model", formData);
+      
       const response = await axios.post(`http://localhost:5500/api/v1/auth/admin/course/add-video/${userid}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log("Video details submitted:", response.data);
+
+      if(response){
+
+        alert('video added successfully')
+      }
+      
       closeModal();
     } catch (error) {
       console.error("Error uploading video:", error);

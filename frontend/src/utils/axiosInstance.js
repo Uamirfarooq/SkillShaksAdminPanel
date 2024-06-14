@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
         );
         const newAccessToken = response.data.accessToken;
 
-        console.log("this is new tokenn",newAccessToken);
+        
         localStorage.setItem('accessToken', JSON.stringify(newAccessToken));
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
         alert("Your Token Has being refreshes")

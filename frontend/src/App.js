@@ -17,6 +17,7 @@ import LoginPage from "./Pages/Admin/LoginPage.jsx";
 function App() {
   return (
     <>
+    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 min-h-screen">
       <BrowserRouter>
         <Navbar />
 
@@ -42,16 +43,38 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
           {/* Update the route for CourseDetail to accept course ID as a parameter */}
-          <Route path="/admin/courseDetail/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
-          <Route path="/admin/manage-user" element={<ProtectedRoute><UserListPage /></ProtectedRoute>} />
+          <Route
+            path="/admin/courseDetail/:id"
+            element={
+              <ProtectedRoute>
+                <CourseDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/manage-user"
+            element={
+              <ProtectedRoute>
+                <UserListPage />
+              </ProtectedRoute>
+            }
+          />
           {/* <Route path="/admin/user/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} /> */}
-          <Route path="/admin/user" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
+          <Route
+            path="/admin/user"
+            element={
+              <ProtectedRoute>
+                <UserProfilePage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
 
         <Footer />
       </BrowserRouter>
+      </div >
     </>
   );
 }

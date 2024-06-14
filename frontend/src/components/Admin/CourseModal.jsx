@@ -87,7 +87,7 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
 
       let response;
       if (courseId) {
-        console.log(courseId);
+        
         response = await axiosInstance.put(
           `/auth/admin/courses/${courseId}`,
           formData);
@@ -96,11 +96,13 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
           "/auth/admin/add-course",
           formData);
       }
-      console.log(response);
+    
 
-      console.log(
-        courseId ? "Course updated successfully" : "Course added successfully"
-      );
+      if(response){
+        console.log(
+          courseId ? "Course updated successfully" : "Course added successfully"
+        );
+      }
 
       // Reset form fields after successful submission
       setAuthorName("");
