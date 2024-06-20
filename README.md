@@ -3,6 +3,8 @@
 
 Welcome to the Learning App! This application is designed to provide an interactive and engaging platform for users to learn various subjects. The app offers a range of features including tutorials, quizzes, and progress tracking to enhance the learning experience.
 
+![Logo]()
+
 ## Features
 
 - **Interactive Tutorials**: Step-by-step tutorials on various subjects.
@@ -11,11 +13,51 @@ Welcome to the Learning App! This application is designed to provide an interact
 - **User Profiles**: Create and manage your user profile.
 - **Discussion Forums**: Engage with other learners and share knowledge.
 
+## Demo Video
+
+[![Watch the demo]()
+
+## Screenshots
+
+### Home Page
+![Home Page](./screenshots/home_page.png)
+
+### Tutorial Page
+![Tutorial Page](./screenshots/tutorial_page.png)
+
+### Quiz Page
+![Quiz Page](./screenshots/quiz_page.png)
+
 ## Pages
 
 1. **Home Page**: A landing page that provides an overview of the app and its features.
 2. **Tutorials Page**: A page where users can access and follow interactive tutorials.
 3. **Quizzes Page**: A page dedicated to quizzes and tests to assess user knowledge.
+
+## API Reference
+
+
+
+
+
+## Acknowledgements
+
+I would like to express my sincere gratitude to the following individuals and organizations for their support and contributions to this project:
+
+- **Umair**: As the team leader and head of the frontend team, Umair provided outstanding leadership and vision that guided the project to its successful completion. His expertise in frontend development and his ability to coordinate the team's efforts were instrumental in achieving our goals.
+- **Tayyab Cheema**: As the head of the backend team, Tayyab played a crucial role in developing the project's backend infrastructure. His deep knowledge of backend technologies and his dedication to ensuring robust and efficient server-side operations were key to the project's success. 
+- **GUJRAT University**: For providing the resources and environment necessary to undertake this project.
+- **Open Source Community**: For the use of the following libraries and tools:
+  - [React](https://reactjs.org/)
+  - [Node.js](https://nodejs.org/)
+  - [Tailwindcss](tailwind/)
+  - [Express.js](Express.js/)
+  - [Mongodb](Mongodb/)
+
+
+
+Thank you to everyone who contributed, directly or indirectly, to the success of this project.
+
 
 ## Getting Started
 
@@ -41,6 +83,13 @@ To get started with the Learning App, follow these steps:
     npm start
     ```
 
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`       `  
+`       `   
+
 ## Contributing
 
 We welcome contributions to improve the Learning App! To contribute, follow these steps:
@@ -61,6 +110,17 @@ We welcome contributions to improve the Learning App! To contribute, follow thes
     ```
 6. **Create a pull request**.
 
+## Badges
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
+## Used By
+
+This project is used by the following companies:
+
+- SkillShaks
+- KleanArth
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -68,6 +128,17 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 For any questions or feedback, please contact us at [support@learningapp.com](mailto:support@learningapp.com).
+
+## FAQ
+
+#### Question 1
+
+Answer 1
+
+#### Question 2
+
+Answer 2
+
 
 ---
 
