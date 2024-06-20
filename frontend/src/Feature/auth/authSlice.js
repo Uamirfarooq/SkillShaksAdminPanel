@@ -1,38 +1,16 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
-
-// Thunk for refreshing the token
-export const refreshToken = createAsyncThunk('auth/refreshToken', async (_, { getState, rejectWithValue }) => {
-  const { auth } = getState();
-  try {
-    const response = await fetch('http://localhost:5500/api/v1/admin/refresh-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${auth.refreshToken}`
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to refresh token');
-    }
-
-    const data = await response.json();
-    localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
-    return data.accessToken;
-  } catch (error) {
-    return rejectWithValue(error.message);
-  }
-});
+// authSlice.js
+import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     user: null,
-    accessToken: localStorage.getItem('accessToken') || null,
-    refreshToken: localStorage.getItem('refreshToken') || null,
-    isAuthenticated: !!localStorage.getItem('accessToken'),
-    status: 'idle',
+    accessToken: localStorage.getItem("accessToken") || null,
+    refreshToken: localStorage.getItem("refreshToken") || null,
+    isAuthenticated: !!localStorage.getItem("accessToken"),
+    isRefreshing: false,
+    status: "idle",
     error: null,
   },
   reducers: {
@@ -46,33 +24,26 @@ const authSlice = createSlice({
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
+      state.isRefreshing = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(refreshToken.fulfilled, (state, action) => {
-        state.accessToken = action.payload;
-        state.isAuthenticated = true;
-      })
-      .addCase(refreshToken.rejected, (state, action) => {
-        state.isAuthenticated = false;
-        state.error = action.payload;
-      });
+    setRefreshing: (state, action) => {
+      state.isRefreshing = true;
+    },
+    setRefreshingfalse: (state, action) => {
+      state.isRefreshing = false;
+    },
   },
 });
 
 const selectAuthState = (state) => state.auth;
 
-export const selectCurrentUser = createSelector(
-  [selectAuthState],
-  (auth) => ({
-    user: auth.user,
-    isAuthenticated: auth.isAuthenticated,
-  })
-);
+export const selectCurrentUser = createSelector([selectAuthState], (auth) => ({
+  user: auth.user,
+  isAuthenticated: auth.isAuthenticated,
+}));
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const { loginSuccess, logout, setRefreshing, setRefreshingfalse } = authSlice.actions;
 export default authSlice.reducer;

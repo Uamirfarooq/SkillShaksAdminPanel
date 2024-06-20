@@ -13,68 +13,99 @@ import ProtectedRoute from "../src/components/ProtectedRoutes.js";
 import NotFoundPage from "../src/Pages/Admin/NotFoundPage.jsx";
 import ForgetPass from "./Pages/Admin/ForgetPass.jsx";
 import LoginPage from "./Pages/Admin/LoginPage.jsx";
+import About from "./Pages/Admin/About.jsx";
+import PrivacyPolicy from "./Pages/Admin/PrivacyPolicy.jsx";
+import Licensing from "./Pages/Admin/Licensing.jsx";
+import Contact from "./Pages/Admin/Contact.jsx";
 
 function App() {
   return (
     <>
-    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 min-h-screen">
-      <BrowserRouter>
-        <Navbar />
+      <div className="bg-white select-none dark:bg-gray-800 text-gray-900 dark:text-gray-100 min-h-screen">
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<AdminHomePage />} />
+            <Route path="/admin/Login" element={<LoginPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/forget-password" element={<ForgetPass />} />
 
-        <Routes>
-          <Route path="/" element={<AdminHomePage />} />
-          <Route path="/admin/Login" element={<LoginPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="/forget-password" element={<ForgetPass />} />
-
-          <Route
-            path="/admin/analytics"
-            element={
-              <ProtectedRoute>
-                <AnalyticsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Update the route for CourseDetail to accept course ID as a parameter */}
-          <Route
-            path="/admin/courseDetail/:id"
-            element={
-              <ProtectedRoute>
-                <CourseDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/manage-user"
-            element={
-              <ProtectedRoute>
-                <UserListPage />
-              </ProtectedRoute>
-            }
-          />
-          {/* <Route path="/admin/user/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} /> */}
-          <Route
-            path="/admin/user"
-            element={
-              <ProtectedRoute>
-                <UserProfilePage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-
-        <Footer />
-      </BrowserRouter>
-      </div >
+            <Route
+              path="/admin/analytics"
+              element={
+                <ProtectedRoute>
+                  <AnalyticsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/courseDetail/:id"
+              element={
+                <ProtectedRoute>
+                  <CourseDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/manage-user"
+              element={
+                <ProtectedRoute>
+                  <UserListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/user"
+              element={
+                <ProtectedRoute>
+                  <UserProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/about"
+              element={
+                <ProtectedRoute>
+                  <About />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/PrivacyPolicy"
+              element={
+                <ProtectedRoute>
+                  <PrivacyPolicy />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/Licensing"
+              element={
+                <ProtectedRoute>
+                  <Licensing />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/Contact"
+              element={
+                <ProtectedRoute>
+                  <Contact  />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </div>
     </>
   );
 }

@@ -4,6 +4,7 @@ import { selectCurrentUser } from "../../Feature/auth/authSlice"
 import { logout } from "../../Feature/auth/authSlice"
 import { useDispatch, useSelector } from 'react-redux';
 import DarkModeToggle from './DarkModeButton';
+import logo from "../../assert/logobg.ico"
 
 const Navbar = () => {
     const dispatch = useDispatch()
@@ -16,8 +17,11 @@ const Navbar = () => {
 
 
     return (
-        <nav className="bg-blue-600 text-white min-w-full  p-4 shadow-md flex justify-between items-center">
+        <nav className="bg-blue-600  text-white min-w-full  p-4 shadow-md flex justify-between items-center">
+            <Link to="/admin/dashboard" className='flex items-center gap-4'>
+            <img src={logo} alt="Company logo" className='h-14 w-14'/>
             <div className="text-2xl font-bold">Admin Panel</div>
+            </Link>
             <div className="space-x-4">
                 {isAuthenticated ? <button onClick={logoutapp} type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Logout</button>
                     :

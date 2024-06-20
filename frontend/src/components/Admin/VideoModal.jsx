@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import { IoMdClose } from "react-icons/io";
 import { IoCloudUploadOutline, IoAddCircleOutline } from "react-icons/io5";
 import { LuImagePlus } from "react-icons/lu";
+import axiosInstance from "../../utils/axiosInstance";
+import { useDispatch } from "react-redux";
+import { setRefreshing } from "../../Feature/auth/authSlice";
+import { useToast } from "./ToastContext";
 
 
 const VideoModal = () => {
+
+  const dispatch = useDispatch();
+
+  const addToast = useToast();
+
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +23,6 @@ const VideoModal = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailSrc, setThumbnailSrc] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
-
-  const token = localStorage.getItem('accessToken');
 
   const handleDragEnter = (e) => {
     e.preventDefault();
@@ -136,17 +142,14 @@ const VideoModal = () => {
 
     try {
       
-      const response = await axios.post(`http://localhost:5500/api/v1/auth/admin/course/add-video/${userid}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axiosInstance.post(`/auth/admin/course/add-video/${userid}`, formData);
 
       if(response){
-
-        alert('video added successfully')
+        
+        addToast('video added successfully');
       }
+
+      dispatch(setRefreshing());
       
       closeModal();
     } catch (error) {
