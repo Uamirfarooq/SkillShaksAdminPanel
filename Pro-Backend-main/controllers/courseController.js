@@ -69,7 +69,7 @@ const getCourse = async (req, res, next) => {
 };
 
 const updateCourse = async (req, res, next) => {
-  const { course_name, course_details, author, level, category } = req.body;
+  const { course_name, course_details, price, author, level, category } = req.body;
   const courseId = req.params.id;
 
   const coverImage =
@@ -88,6 +88,7 @@ const updateCourse = async (req, res, next) => {
     if (author) updatedCourse.author = author;
     if (level) updatedCourse.level = level;
     if (category) updatedCourse.category = category;
+    if (price) updatedCourse.price = price;
 
     // Handle course image update
     if (coverImage) {

@@ -7,8 +7,15 @@ import { MdDelete } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
 import AlphabeticInput from "../../components/AlphabeticInput"; // Adjust the import path as necessary
 import axiosInstance from "../../utils/axiosInstance";
+import { useToast } from "./ToastContext";
+import { useDispatch } from "react-redux";
+import { setRefreshing } from "../../Feature/auth/authSlice";
 
 const CourseModal = ({ closeModal, Name, courseId }) => {
+  
+  const dispatch = useDispatch();
+  
+
   const [imageDeleted, setImageDeleted] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageUploaded, setImageUploaded] = useState(false);
@@ -21,6 +28,8 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
   const [courseImage, setCourseImage] = useState(null);
   const [authorImage, setAuthorImage] = useState(null);
   const [courseDescription, setCourseDescription] = useState(""); // New state for course description
+
+  const addToast = useToast();
 
   const navigate = useNavigate();
 
@@ -85,6 +94,9 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
         return;
       }
 
+
+      
+
       let response;
       if (courseId) {
         
@@ -98,11 +110,10 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
       }
     
 
-      if(response){
-        console.log(
-          courseId ? "Course updated successfully" : "Course added successfully"
-        );
+      if (response) {
+        addToast(courseId ? `${courseId} Course updated successfully` : "Course added successfully");
       }
+      
 
       // Reset form fields after successful submission
       setAuthorName("");
@@ -117,6 +128,7 @@ const CourseModal = ({ closeModal, Name, courseId }) => {
       if (!courseId) {
         navigate("/admin/dashboard");
       }
+      dispatch(setRefreshing());
     } catch (error) {
       console.error(
         courseId ? "Error updating course:" : "Error adding course:",
