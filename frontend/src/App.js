@@ -17,6 +17,7 @@ import About from "./Pages/Admin/About.jsx";
 import PrivacyPolicy from "./Pages/Admin/PrivacyPolicy.jsx";
 import Licensing from "./Pages/Admin/Licensing.jsx";
 import Contact from "./Pages/Admin/Contact.jsx";
+import ScrollToTop from "./components/ScrollToTop.js";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <div className="bg-white select-none dark:bg-gray-800 text-gray-900 dark:text-gray-100 min-h-screen">
         <BrowserRouter>
           <Navbar />
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<AdminHomePage />} />
             <Route path="/admin/Login" element={<LoginPage />} />

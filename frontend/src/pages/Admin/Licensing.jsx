@@ -96,11 +96,7 @@ const Licensing = () => {
                     </p>
                 </section>
             </main>
-            <footer className="bg-white dark:bg-gray-800 shadow-md">
-                <div className="container mx-auto px-4 py-4 text-center text-gray-600 dark:text-gray-400">
-                    &copy; SkillShaks 2024
-                </div>
-            </footer>
+            
         </div>
     );
 };

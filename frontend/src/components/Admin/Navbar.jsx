@@ -18,7 +18,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-blue-600  text-white min-w-full  p-4 shadow-md flex justify-between items-center">
-            <Link to="/admin/dashboard" className='flex items-center gap-4'>
+            <Link to="/" className='flex items-center gap-4'>
             <img src={logo} alt="Company logo" className='h-14 w-14'/>
             <div className="text-2xl font-bold">Admin Panel</div>
             </Link>

@@ -91,7 +91,7 @@ const VideoList = () => {
           </div>
           <div className="flex-1 max-h-40 space-y-2">
             <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{video.title}</h3>
-            <p className="text-gray-600 dark:text-gray-400 max-h-12 overflow-hidden text-sm truncate">{truncateText(video.description, 50)}</p>
+            <p className="text-gray-600 dark:text-gray-400 max-h-12 overflow-hidden text-sm truncate">{truncateText(video.description, 70)}</p>
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
               <p>Visibility: {video.visibility}</p>
               <p>Date: {new Date(video.createdAt).toLocaleDateString()}</p>

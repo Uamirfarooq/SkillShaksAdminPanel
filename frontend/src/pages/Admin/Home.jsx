@@ -3,21 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AdminHomePage = () => {
 
-  function updateDarkModeClass() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }
 
-  // Run the function on page load
-  updateDarkModeClass();
-
-  useEffect(() => {
-    updateDarkModeClass();
-    window.matchMedia('(prefers-color-scheme: dark)').addListener(updateDarkModeClass);
-  }, [])
 
   return (
     <div className="min-h-screen flex flex-col">
