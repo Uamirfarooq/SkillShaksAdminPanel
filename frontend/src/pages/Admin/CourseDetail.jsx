@@ -103,10 +103,15 @@ const CourseDetail = () => {
   return (
     <>
       <div className="flex min-w-min h-screen relative bg-gray-100 dark:bg-gray-900">
-        <aside className="group/sidebar flex flex-col shrink-0 max-w-screen-sm transition-all duration-300 ease-in-out m-0 z-50 inset-y-0 left-0 bg-white dark:bg-gray-800 border-r border-r-dashed border-r-neutral-200 dark:border-r-neutral-700 fixed-start loopple-fixed-start p-4 shadow-md ">
+      <aside className="group/sidebar flex flex-col shrink-0 max-w-screen-sm transition-all duration-300 ease-in-out m-0 z-50 inset-y-0 left-0 bg-white dark:bg-gray-800 border-r border-r-dashed border-r-neutral-200 dark:border-r-neutral-700 fixed-start loopple-fixed-start p-4 shadow-md ">
           <div className="bg-gray-200 dark:bg-gray-700 rounded-lg">
-            <div className="flex items-center justify-between mt-3 px-4 py-5">
+            <div className="flex items-center justify-center">
+            <div className="text-2xl font-bold py-8">Course Detail</div>
+            </div>
+            <div className="flex items-center justify-between  px-4 pb-5">
+              
               <div className="flex items-center mr-5">
+                
                 <div className="mr-5">
                   <div className="inline-block shrink-0 cursor-pointer rounded-full">
                     <img
@@ -175,8 +180,8 @@ const CourseDetail = () => {
                 </div>
                 <div className="mb-4">
                   <p className="text-gray-900 dark:text-gray-100 font-semibold leading-tight">
-                    <span className="font-bold">Course Description:</span>&nbsp;&nbsp;
-                    {truncateText(courseData.course_details, 100)}
+                    <span className="font-bold">Course Description:</span><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {truncateText(courseData.course_details, 500)}
                   </p>
                 </div>
               </div>
